@@ -1,0 +1,201 @@
+			<!-- JOURNEES -->
+			<div id="section-journees" style="display: none">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-lg-12">
+							<h1 class="page-header">Journées des entreprises
+								<span style="float: right;">
+									<button id="buttonNouvelleJE" class="btn btn-outline btn-primary" data-toggle="modal" data-target="#modalCreerJE">
+										<i class="fa fa-plus-square fa-fw"></i> Nouvelle JE
+									</button>
+									<button id="buttonCloturerJE" class="btn btn-outline btn-primary">
+										<i class="fa fa-lock fa-fw"></i> Clôturer JE active
+									</button>
+								</span>
+							</h1>
+							<div class="row" style="margin-bottom: 1%;">
+								<div class="col-lg-2">
+									<label>Sélectionner la JE</label>
+									<select id="selectJE" class="selectpicker show-tick">
+									</select>
+								</div>
+							</div>
+	
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									Listing des participations des entreprises invitées
+								</div>
+								<div id="lesJEContainer" class="panel-body">
+									<!-- Table d'affichage des JE -->
+									<table id="lesJE" class="table table-striped responsive" style="width:100%;stycellspacing=0;">
+										<thead>
+											<tr>
+												<th>N°</th>
+												<th>Entreprise</th>
+												<th>Etat</th>
+												<th>Annuler</th>
+												<th>Participants</th>
+												<th>Editer</th>
+											</tr>
+										</thead>
+										<tbody>
+										
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+	
+				<!-- Modal -->
+				<div class="modal fade" id="modalCreerJE" tabindex="-1" role="dialog" aria-labelledby="modalCreerJELabel" aria-hidden="true" style="display: none;">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<form>
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+									<h4 class="modal-title" id="modalCreerJELabel">
+										<i class="fa fa-plane fa-fw"></i> Création d'une nouvelle JE
+									</h4>
+								</div>
+								<div class="modal-body">
+									<div class="row">
+										<div class="col-lg-6 col-md-offset-1">
+											<label>Date de la JE</label>
+											<div class="form-group input-group">
+												<span class="input-group-addon"><i class="fa fa-calendar fa-fw"></i></span>
+												<input type="text" class="form-control" name="dateJE" placeholder="ex : 26-04-2017">
+											</div>
+											<div class="row">
+												<div class="messageErreur"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
+									<button type="submit" class="btn btn-primary">Créer</button>
+								</div>
+							</form>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+	
+				<!-- Modal -->
+				<div class="modal fade" id="modalAjouterPDCaParticipation" tabindex="-1" role="dialog" aria-labelledby="modalAjouterPDCaParticipationLabel"
+					aria-hidden="true" style="display: none;">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="modalAjouterPDCaParticipationLabel">
+									<i class="fa fa-group fa-fw"></i> Membres du personnel participant
+								</h4>
+							</div>
+							<div class="modal-body">
+								<form id="formPersonnelParticipant">
+									<div id="personnelParticipantContainer">
+										<!-- Table d'affichage du personnel participant -->
+										<table id="tablePersonnelParticipant" class="table table-striped" style="width:100%;stycellspacing=0;">
+											<thead>
+												<tr>
+													<th>Inviter</th>
+													<th>Nom</th>
+													<th>Prenom</th>
+													<th>Email</th>
+													<th>Actif</th>
+												</tr>
+											</thead>
+											<tbody>
+											</tbody>
+										</table>
+									</div>
+								</form>
+							</div>
+	
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
+								<button type="button" class="btn btn-primary" id="buttonUpdatePersonnelParticipant">Sauver</button>
+							</div>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+	
+				<!-- Modal -->
+				<div class="modal fade" id="modalAfficherParticipants" tabindex="-1" role="dialog" aria-labelledby="modalParticipantsEntreprise" aria-hidden="true" style="display: none;">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title">
+									<i class="fa fa-building fa-fw"></i> Participants
+								</h4>
+							</div>
+							<div class="modal-body">
+								<table class="table table-striped" style="width:100%;stycellspacing=0;">
+									<thead>
+										<tr>
+											<th>Nom</th>
+											<th>Prenom</th>
+											<th>Telephone</th>
+											<th>Email</th>
+											<th>Actif</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+	
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
+							</div>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+	
+				<!-- Modal -->
+				<div class="modal fade" id="modalHistoriqueInformationEntreprise" tabindex="-1" role="dialog" aria-labelledby="modalHistoriqueInformationEntreprise"
+					aria-hidden="true" style="display: none;">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="modalHistoriqueInformationEntrepriseLabel">
+									<i class="fa fa-group fa-fw"></i> Information de l'Entreprise :
+								</h4>
+							</div>
+							<div class="modal-body">
+									<label>Nom :</label>
+									<div id="informationEntrepriseNomh" style="display: inline;"></div>
+									<br> <label>Adresse :</label>
+									<div id="informationEntrepriseAdresseh"
+										style="display: inline;"></div>
+									<br>
+									<div id="informationEntrepriseParticipationContrainer">
+										<!-- Table d'affichage du personnel participant -->
+										<table class="table"
+											id="tableInformationParticipationEntreprise">
+										</table>
+									</div>
+							</div>
+	
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">Retour</button>
+							</div>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+	
+			</div>
+			<!-- FIN JOURNEE -->

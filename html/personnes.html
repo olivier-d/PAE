@@ -1,0 +1,238 @@
+			<!-- PERSONNES DE CONTACT -->
+			<div id="section-personnesDeContact" style="display: none">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-lg-12">
+							<h1 class="page-header"> Personnes de contact<span style="float: right;">
+									<button class="btn btn-outline btn-primary" data-toggle="modal" data-target="#modalRechercherPersonneContact">
+										<i class="fa fa-plus-square fa-fw"></i> Rechercher
+									</button>
+									<button class="btn btn-outline btn-primary" data-toggle="modal" data-target="#modalCreerPersonneDeContact">
+										<i class="fa fa-plus-square fa-fw"></i> Ajouter
+									</button>
+								</span>
+							</h1>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									Listing des personnes de contact
+								</div>
+								<div class="panel-body">
+									<!-- Table d'affichage des personneDeContact -->
+									<table id="lesPersonnesContact" class="table table-striped responsive" style="width:100%;stycellspacing=0;">
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+	
+				<!-- Modal -->
+				<div class="modal fade" id="modalInformationEntreprise" tabindex="-1" role="dialog" aria-labelledby="modalInformationEntreprise" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="modalInformationEntrepriseLabel">
+									<i class="fa fa-building fa-fw"></i> Information Entreprise												
+								</h4>
+							</div>
+							<div class="modal-body">
+								<label>Nom :</label>
+								<div id="informationEntrepriseNompc" style="display: inline;"></div>
+								<br> <label>Adresse :</label>
+								<div id="informationEntrepriseAdressepc"
+									style="display: inline;"></div>
+								<br>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
+							</div>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+	
+				<!-- Modal -->
+				<div class="modal fade" id="modalCreerPersonneDeContact" tabindex="-1" role="dialog" aria-labelledby="modalCreerPersonneDeContactLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<form>
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+									<h4 class="modal-title">
+										<span class="glyphicon glyphicon-user"></span> Ajout d'une Personne de Contact
+									</h4>
+								</div>
+								<div class="modal-body">
+									<div class="panel panel-info">
+										<div class="panel-heading"> Informations personnelles</div>
+										<div class="panel-body">
+											<div class="row">
+												<div class="col-lg-6">
+													<div class="form-group">
+														<label>Nom</label>
+														<input class="form-control" name="nom" type="text">
+													</div>
+												</div>
+												<div class="col-lg-6">
+													<div class="form-group">
+														<label>Prénom</label> <input class="form-control" name="prenom" type="text">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="panel panel-info">
+										<div class="panel-heading"> Informations professionnelles</div>
+										<div class="panel-body">
+											<div class="form-group input-group">
+												<span class="input-group-addon"><i class="fa fa-envelope fa-fw"></i></span>
+													<input type="email" class="form-control" name="email" placeholder="E-mail">
+											</div>
+											<div class="form-group input-group">
+												<span class="input-group-addon"><i class="fa fa-phone fa-fw"></i></span>
+												<input type="tel" class="form-control" name="telephone" placeholder="N° Téléphone">
+											</div>
+										</div>
+									</div>
+									<div class="panel panel-info">
+										<div class="panel-heading"> Entreprise</div>
+										<div class="panel-body">
+											<div class="col-lg-10 col-md-offset-1">
+												<div class="form-group">
+													<select class="selectpicker show-tick" data-width="100%">
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-10 col-md-offset-1">
+											<div class="messageErreur"></div>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
+									<button type="submit" class="btn btn-primary">Ajouter</button>
+								</div>
+							</form>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+							
+				<div class="modal fade" id="modalRechercherPersonneContact" tabindex="-1" role="dialog" aria-labelledby="modalRechercherPersonneContact"
+						aria-hidden="true" style="display: none;">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title">
+									<i class="fa fa-building fa-fw"></i> Rechercher personne de contact
+								</h4>
+							</div>
+							<div class="modal-body">
+								<form role="form" id="formRechercherContact">
+									<div class="panel panel-info">
+									<div class="panel-heading"> Informations personnelles</div>
+									<div class="panel-body">
+										<div class="row">
+											<div class="col-lg-6">
+												<div class="form-group">
+													<label>Nom</label> 
+													<input class="form-control" name="nom" type="text">
+												</div>
+											</div>
+											<div class="col-lg-6">
+												<div class="form-group">
+													<label>Prénom</label> 
+													<input class="form-control" name="prenom" type="text">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+									<div class="row">
+										<div class="col-lg-10 col-md-offset-1">
+											<div class="messageErreur"></div>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
+								<button type="button" class="btn btn-primary" id="buttonRechercherContact">Rechercher</button>
+							</div>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+							
+				<!-- Modal -->
+				<div class="modal fade" id="modalEditerPersonneDeContact" tabindex="-1" role="dialog" aria-labelledby="modalEditerPersonneDeContactLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<form>
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+									<h4 class="modal-title">
+										<span class="glyphicon glyphicon-edit"></span> Modification des informations d'une
+										Personne de Contact
+									</h4>
+								</div>
+								<div class="modal-body">
+									<div class="panel panel-info">
+										<div class="panel-heading"> Informations personnelles</div>
+										<div class="panel-body">
+											<div class="row">
+												<div class="col-lg-6">
+													<div class="form-group">
+														<label>Nom</label> 
+														<input class="form-control" name="nom" type="text">
+													</div>
+												</div>
+												<div class="col-lg-6">
+													<div class="form-group">
+														<label>Prénom</label> 
+														<input class="form-control" name="prenom" type="text">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="panel panel-info">
+										<div class="panel-heading"> Informations professionnelles</div>
+										<div class="panel-body">
+											<div class="form-group input-group">
+												<span class="input-group-addon"><i class="fa fa-envelope fa-fw"></i></span>
+													<input type="email" class="form-control" name="email" placeholder="E-mail">
+											</div>
+											<div class="form-group input-group">
+												<span class="input-group-addon"><i class="fa fa-phone fa-fw"></i></span>
+												<input type="tel" class="form-control" name="telephone" placeholder="N° Téléphone">
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-10 col-md-offset-1">
+											<div class="messageErreur"></div>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
+									<button type="submit" class="btn btn-primary">Sauvegarder</button>
+								</div>
+							</form>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+							
+			</div>
+			<!-- FIN PERSONNES DE CONTACT -->

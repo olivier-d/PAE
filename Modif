@@ -1,0 +1,13 @@
+A. Liste des formulaires classiques
+
+	1. Inscription - formInscription
+		- nom
+		- prenom
+		- mail
+		- login
+		- mdpEntree
+		- mdpConfirmation
+		
+	2. JE - formCreerJE
+		- dateJE
+		

@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<title>Corporate Express</title>
+	<link rel="icon" type="image/png" href="./img/Corporate_Express_Logo.png">
+	<link href="./bootstrap/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="./bootstrap/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+	<link href="./bootstrap/dist/css/sb-admin-2.css" rel="stylesheet">
+	<link href="./bootstrap/vendor/morrisjs/morris.css" rel="stylesheet">
+	<link href="./bootstrap/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href="./bootstrap/vendor/notify/animate.css" rel="stylesheet">	
+	<link href="./bootstrap/datatables/css/dataTables.bootstrap.min.css" rel="stylesheet">
+	<link href="./bootstrap/vendor/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet">
+</head>
+<body>
+
+	<!-- Connexion -->
+	<div class="container" id="divConnexion" style="display: none;z-index:100;">
+		<div class="row">
+			<img src="./img/Corporate_Express_Banner.png" alt="Corporate Express (logo)" style="width: 400px; height: 139px; display: block; margin: 0 auto; margin-top: 100px; margin-bottom: 0;">
+			<div class="col-md-4 col-md-offset-4">
+				<div class="login-panel panel panel-primary" style="margin-top: 20px;">
+					<div class="panel-heading" style="display: flex; align-items: center; justify-content: center;">
+						<h3 class="panel-title"><b>Connexion</b></h3>
+					</div>
+					<div class="panel-body">
+						<form role="form" id="formLogin">
+							<div class="form-group input-group">
+								<span class="input-group-addon"><i class="fa fa-user"></i></span>
+								<input id="login" class="form-control" placeholder="Login" name="login" type="text" autofocus>
+							</div>
+							<div class="form-group input-group">
+								<span class="input-group-addon"><i class="fa fa-lock"></i></span>
+								<input id="mdp" class="form-control" placeholder="Mot de passe" name="mdp" type="password">
+							</div>
+							<div class="messageErreur"></div>
+							<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+								<button id="buttonPasEncoreInscrit" type="button" class="btn btn-link">Pas encore inscrit ?</button>
+							</div>
+							<button id="buttonSeConnecter" type="button" class="btn btn-lg btn-primary btn-block">Se connecter</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Inscription -->
+	<div class="container" id="divInscription" style="display: none;z-index:100;">
+		<div class="row">
+			<img src="./img/Corporate_Express_Banner.png" alt="Corporate Express (logo)" style="width: 500px; height: 173px; display: block; margin: 0 auto; margin-top: 50px; margin-bottom: 0;">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="panel panel-primary" style="margin-top: 20px;">
+					<div class="panel-heading" style="display: flex; align-items: center; justify-content: center;">
+						<h3 class="panel-title"><b>Inscription</b></h3>
+					</div>
+					<div class="panel-body">
+						<form role="form" id="formInscription">
+							<label>Utilisateur</label>
+							<div class="row">
+								<div class="col-lg-6">
+									<div class="form-group input-group">
+										<span class="input-group-addon"><i class="fa fa-user"></i></span>
+										<input class="form-control" placeholder="Nom" name="nom" type="text" autofocus>
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<div class="form-group input-group">
+										<span class="input-group-addon"><i class="fa fa-user"></i></span>
+										<input class="form-control" placeholder="PrÃ©nom" name="prenom" type="text">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="form-group input-group">
+										<span class="input-group-addon"><i
+											class="fa fa-envelope"></i></span>
+											<input class="form-control" placeholder="E-mail" name="mail" type="text">
+									</div>
+								</div>
+							</div>
+							<hr>
+							<label>Compte</label>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="form-group input-group">
+										<span class="input-group-addon"><i class="fa fa-user"></i></span>
+										<input id="login" class="form-control" placeholder="Login" name="login" type="text">
+									</div>
+								</div>
+							</div>
+	
+							<div class="row">
+								<div class="col-lg-6">
+									<div class="form-group input-group">
+										<span class="input-group-addon"><i class="fa fa-lock"></i></span>
+										<input class="form-control" placeholder="Mot de passe" name="mdpEntree" type="password">
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<div class="form-group input-group">
+										<span class="input-group-addon"><i class="fa fa-lock"></i></span>
+										<input class="form-control" placeholder="Mot de passe (confirmation)" name="mdpConfirmation" type="password">
+									</div>
+								</div>
+							</div>
+							<div class="messageErreur"></div>
+							<div class="row">
+								<div class="col-lg-6">
+									<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+										<button type="button" class="btn btn-outline btn-primary btn-lg" id="buttonInscriptionRetour">Retour</button>
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+										<button type="button" class="btn btn-lg btn-primary" id="buttonSInscrire">S'inscrire</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- FIN INSCRIPTION -->
+
+	<div id="wrapper" style="display: none; z-index:50;">
+	
+		<!-- Navigation -->
+		<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand"
+					style="padding-left: 20px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px;"><img
+					src="./img/Corporate_Express_Banner.png"
+					alt="Corporate Express (logo)" style="width: 150px; height: 52px;"></a>
+			</div>
+			<!-- /.navbar-header -->
+
+			<ul class="nav navbar-top-links navbar-right">
+				<li class="dropdown"><p id="nomUtilisateur"></p></li>
+	
+				<li class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown"> <i class="fa fa-user fa-fw"></i><i
+						class="fa fa-caret-down"></i>
+				</a>
+					<ul class="dropdown-menu dropdown-user">
+						<li><a id="buttonModalChangerPassword" data-toggle="modal"
+							data-target="#modalChangerPassword"
+							style="cursor: pointer; color: black;"><i
+								class="fa fa-user fa-fw"></i> Profil</a></li>
+						<li class="divider"></li>
+						<li><a id="menuSeDeconnecter" style="cursor: pointer"><i
+								class="fa fa-sign-out fa-fw"></i> Se dÃ©connecter</a></li>
+					</ul></li>
+			</ul>
+			<!-- /.navbar-top-links -->
+
+			<div class="navbar-default sidebar" role="navigation">
+				<div class="sidebar-nav navbar-collapse">
+					<ul class="nav in" id="side-menu">
+						<li id="divStatutResponsable">
+							<a><img src="./img/Icon_Admin.png" alt="Icon_Statut_Responsable" style="width: 30px; height: 30px;"> Statut : RESPONSABLE</a>
+						</li>
+						<li id="divStatutUtilisateur">
+							<a><img src="./img/Icon_User.png" alt="Icon_Statut_Utilisateur" style="width: 30px; height: 30px;"> Statut : UTILISATEUR</a>
+						</li>
+						<li>
+							<a id="navBarDashboard" style="cursor: pointer"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+						</li>
+						<li class="active"><a id="navBarJournees" style="cursor: pointer"><i
+								class="fa fa-list-alt fa-fw"></i> JournÃ©es<span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level collapse in" aria-expanded="true">
+								<li><a id="navBarHistorique" style="cursor: pointer">Gestion JE</a></li>
+								<li><a id="navBarGestionJE" style="cursor: pointer">Gestion
+										invitations</a></li>
+							</ul></li>
+						<li>
+							<a id="navBarEntreprises" style="cursor: pointer"><i class="fa fa-building fa-fw"></i> Entreprises</a>
+						</li>
+						<li>
+							<a id="navBarPersonnesDeContact" style="cursor: pointer"><i class="fa fa-users fa-fw"></i> Personnes de contact</a>
+						</li>
+					</ul>
+				</div>
+				<!-- /.sidebar-collapse -->
+			</div>
+			<!-- /.navbar-static-side -->
+		</nav>
+		
+		<!-- Modal navigation -->
+		<div class="modal fade" id="modalChangerPassword" tabindex="-1"
+			role="dialog" aria-labelledby="modalChangerPassword"
+			aria-hidden="true" style="display: none;">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="modalChangerPasswordLabel">
+							<i class="fa fa-user fa-fw"></i>
+						</h4>
+					</div>
+					<div class="modal-body">
+						<form id="formChangerMdp" role="form">
+							<fieldset disabled>
+								<div class="row">
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label for="disabledNom">Nom</label><input
+												class="form-control" id="disabledNom" type="text"
+												placeholder="" disabled name="nom">
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label for="disabledPrenom">PrÃ©nom</label><input
+												class="form-control" id="disabledPrenom" type="text"
+												placeholder="" disabled name="prenom">
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-lg-12">
+										<div class="form-group input-group">
+											<span class="input-group-addon"><i
+												class="fa fa-envelope"></i></span><input class="form-control"
+												id="disabledMail" placeholder="" type="text" name="mail">
+										</div>
+									</div>
+								</div>
+							</fieldset>
+							<hr>
+							<div class="row">
+								<div class="col-lg-6">
+									<div class="form-group input-group">
+										<span class="input-group-addon"><i class="fa fa-lock"></i></span><input
+											class="form-control" placeholder="Nouv. mot de passe"
+											name="nouveauMdp" type="password">
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<div class="form-group input-group">
+										<span class="input-group-addon"><i class="fa fa-lock"></i></span><input
+											class="form-control" placeholder="Confirmation"
+											name="nouveauMdpConfirmation" type="password">
+									</div>
+								</div>
+							</div>
+							<div class="messageErreur"></div>
+						</form>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
+						<button type="button" class="btn btn-primary"
+							id="buttonChangerPassword">Modifier</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+		</div>
+		
+		<!------------------>
+		
+
+		<!-- Page Content -->
+		<div id="page-wrapper">
+		
+			<!-- Dashboard -->
+			<div id="section-dashboard" style="display: none">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-lg-12" style="text-align: center;vertical-align: middle;">
+							<h1 class="page-header">Dashboard</h1>
+							<div class="col-lg-12">
+								<div class="panel panel-default">
+									<div class="panel-heading">Nombre de participations confirmées par JE</div>
+									<div class="panel-body">
+										<canvas id="myChart"></canvas>
+										<div id="donut-example"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
+			<!-- JOURNEES -->
+			<div id="section-journees" style="display: none">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-lg-12">
+							<h1 class="page-header">Journées des entreprises
+								<span style="float: right;">
+									<button id="buttonNouvelleJE" class="btn btn-outline btn-primary" data-toggle="modal" data-target="#modalCreerJE">
+										<i class="fa fa-plus-square fa-fw"></i> Nouvelle JE
+									</button>
+									<button class="btn btn-outline btn-primary" id="buttonCloturerJE">
+										<i class="fa fa-lock fa-fw"></i> Clôturer JE active
+									</button>
+								</span>
+							</h1>
+							<div class="row" style="margin-bottom: 1%;">
+								<div class="col-lg-2">
+									<label>Sélectionner la JE</label>
+									<select id="selectJEaAfficherHistorique" class="selectpicker show-tick">
+									</select>
+								</div>
+							</div>
+	
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									Listing des participations des entreprises invitées
+								</div>
+								<div id="lesJEContainer" class="panel-body">
+									<!-- Table d'affichage des JE -->
+									<table id="lesJE" class="table table-striped responsive" style="width:100%;stycellspacing=0;">
+										<thead>
+											<tr>
+												<th>N°</th>
+												<th>Entreprise</th>
+												<th>Etat</th>
+												<th>Annuler</th>
+												<th>Participants</th>
+												<th>Editer</th>
+											</tr>
+										</thead>
+										<tbody>
+										
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+	
+				<!-- Modal -->
+				<div class="modal fade" id="modalCreerJE" tabindex="-1" role="dialog" aria-labelledby="modalCreerJELabel" aria-hidden="true" style="display: none;">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="modalCreerJELabel">
+									<i class="fa fa-plane fa-fw"></i> Création d'une nouvelle JE
+								</h4>
+							</div>
+							<div class="modal-body">
+								<div class="row">
+									<div class="col-lg-6 col-md-offset-1">
+										<label>Date de la JE</label>
+										<form role="form" id="formCreerJE">
+											<div class="form-group input-group">
+												<span class="input-group-addon"><i class="fa fa-calendar fa-fw"></i></span>
+												<input type="text" class="form-control" name="dateJE" placeholder="ex : 26-04-2017">
+											</div>
+											<div class="row">
+												<div class="messageErreur"></div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
+								<button type="button" class="btn btn-primary" id="buttonCreerJE">Créer</button>
+							</div>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+	
+				<!-- Modal -->
+				<div class="modal fade" id="modalAjouterPDCaParticipation" tabindex="-1" role="dialog" aria-labelledby="modalAjouterPDCaParticipationLabel"
+					aria-hidden="true" style="display: none;">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="modalAjouterPDCaParticipationLabel">
+									<i class="fa fa-group fa-fw"></i> Membres du personnel participant
+								</h4>
+							</div>
+							<div class="modal-body">
+								<form id="formPersonnelParticipant">
+									<div id="personnelParticipantContainer">
+										<!-- Table d'affichage du personnel participant -->
+										<table id="tablePersonnelParticipant" class="table table-striped" style="width:100%;stycellspacing=0;">
+											<thead>
+												<tr>
+													<th>Inviter</th>
+													<th>Nom</th>
+													<th>Prenom</th>
+													<th>Email</th>
+													<th>Actif</th>
+												</tr>
+											</thead>
+											<tbody>
+											</tbody>
+										</table>
+									</div>
+								</form>
+							</div>
+	
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
+								<button type="button" class="btn btn-primary" id="buttonUpdatePersonnelParticipant">Sauver</button>
+							</div>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+	
+				<!-- Modal -->
+				<div class="modal fade"
+					id="modalParticipantsEntreprise" tabindex="-1" role="dialog" aria-labelledby="modalParticipantsEntreprise" aria-hidden="true" style="display: none;">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title">
+									<i class="fa fa-building fa-fw"></i> Participants
+								</h4>
+							</div>
+							<div id="tableParticipantsEntrepriseContainer" class="modal-body">
+								<table id="tableParticipantsEntreprise" class="table table-striped" style="width:100%;stycellspacing=0;">
+									<thead>
+										<tr>
+											<th>Nom</th>
+											<th>Prenom</th>
+											<th>Telephone</th>
+											<th>Email</th>
+											<th>Actif</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+	
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
+							</div>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+	
+				<!-- Modal -->
+				<div class="modal fade" id="modalHistoriqueInformationEntreprise" tabindex="-1" role="dialog" aria-labelledby="modalHistoriqueInformationEntreprise"
+					aria-hidden="true" style="display: none;">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="modalHistoriqueInformationEntrepriseLabel">
+									<i class="fa fa-group fa-fw"></i> Information de l'Entreprise :
+								</h4>
+							</div>
+							<div class="modal-body">
+									<label>Nom :</label>
+									<div id="informationEntrepriseNomh" style="display: inline;"></div>
+									<br> <label>Adresse :</label>
+									<div id="informationEntrepriseAdresseh"
+										style="display: inline;"></div>
+									<br>
+									<div id="informationEntrepriseParticipationContrainer">
+										<!-- Table d'affichage du personnel participant -->
+										<table class="table"
+											id="tableInformationParticipationEntreprise">
+										</table>
+									</div>
+							</div>
+	
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">Retour</button>
+							</div>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+	
+			</div>
+			<!-- FIN JOURNEE -->
+			
+			<!-- GESTION -->
+			<div id="section-gestionJE" style="display: none">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="page-header"><h1>Gestion des invitations de la JE</h1></div>
+				
+							<div class="col-lg-12" id="ListeEntreprisesInvitablesPanel">
+								<fieldset id="listeEntreprisesInvitables" disabled>
+									<div class="panel panel-default">
+										<div class="panel-heading">Listing des entreprises invitées et invitables (correspondant aux critères)</div>
+										<div id="tableInvitationsContainer" class="panel-body">
+											<table id="tableInvitations" class="table table-striped responsive" style="width:100%;stycellspacing=0;">
+												<thead>
+													<tr>
+														<th>Invitation</th>
+														<th>Nom entreprise</th>
+														<th>Adresse</th>
+														<th>Commune</th>
+														<th>C.P</th>
+														<th>Date insc.</th>
+														<th>Date dernière part.</th>
+													</tr>	
+												</thead>
+											</table>
+										</div>
+									</div>
+								</fieldset>
+								<span style="float: right;">
+									<button class="btn btn-outline btn-primary" id="genererCSV"> Sauvegarder et générer fichier CSV
+										<img src="./img/Export_CSV_Icon.png" alt="Export CSV Icon" style="width: 20px; height: 20px;">
+									</button>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+	
+				<!-- Modal -->
+				<div class="modal fade" id="modalParticipationInformationEntreprise" tabindex="-1" role="dialog"
+					aria-labelledby="modalParticipationInformationEntreprise"
+					aria-hidden="true" style="display: none;">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="modalParticipationInformationEntrepriseLabel">
+									<i class="fa fa-building fa-fw"></i> Information Entreprise
+								</h4>
+							</div>
+							<div class="modal-body">
+								<label>Nom :</label>
+								<div id="informationEntrepriseNomp" style="display: inline;"></div>
+								<br> <label>Adresse :</label>
+								<div id="informationEntrepriseAdressep"
+									style="display: inline;"></div>
+								<br>
+								<div id="informationEntrepriseParticipationContrainer">
+									<!-- Table d'affichage du personnel participant -->
+									<table class="table"
+										id="tableInformationParticipationEntreprise">
+									</table>
+								</div>
+							</div>
+	
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">Retour</button>
+							</div>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+			</div>
+			<!-- FIN GESTION -->
+			
+			
+			<!-- Entreprises -->
+			<div id="section-entreprises" style="display: none">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-lg-12">
+							<h1 class="page-header">Entreprises<span style="float: right;">
+									<button class="btn btn-outline btn-primary" data-toggle="modal" data-target="#modalRechercherEntreprise">
+										<i class="fa fa-plus-square fa-fw"></i> Rechercher
+									</button>
+									<button class="btn btn-outline btn-primary" data-toggle="modal" data-target="#modalCreerEntreprise">
+										<i class="fa fa-plus-square fa-fw"></i> Ajouter
+									</button>
+								</span>
+							</h1>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									Listing des entreprises
+								</div>
+								<div id="lesEntreprisesContainer" class="panel-body">
+									<!-- Table d'affichage des entreprises -->
+									<table id="lesEntreprises" class="table table-striped responsive" style="width:100%;stycellspacing=0;">	
+										<thead>
+											<tr>
+												<th>Nom</th>
+												<th>Adresse</th>
+												<th>Commune</th>
+												<th>C.P</th>
+												<th>Date insc.</th>
+												<th>Date part.</th>
+												<th>Employé(s)</th>
+												<th>Part.</th>
+												<th>Créateur</th>
+											</tr>
+										</thead>
+										<tbody>												
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+	
+				<!-- Modal -->
+				<div class="modal fade" id="modalEntrepriseListeEmployes" tabindex="-1" role="dialog" aria-labelledby="modalEntrepriseListeEmployes" aria-hidden="true"
+					style="display: none;">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title"><i class="fa fa-group fa-fw"></i> Information des employés</h4>
+							</div>
+							<div id="bodyEntrepriseEmployes" class="modal-body">
+								<table id='tableListeEmployes' class="table table-striped" style="width:100%;stycellspacing=0;">
+									<thead>
+										<tr>
+											<th>Nom</th>
+											<th>Prenom</th>
+											<th>Email</th>
+											<th>Telephone</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+	
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
+							</div>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+	
+				<!-- Modal -->
+				<div class="modal fade" id="modalEntrepriseListeParticipations" tabindex="-1" role="dialog" aria-labelledby="modalEntrepriseListeParticipations" aria-hidden="true"
+					style="display: none;">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title"><i class="fa fa-list-ul"></i> Listing des participations</h4>
+							</div>
+							<div class="modal-body" id="bodyEntrepriseParticipations">
+								<table id="tableListePart" class="table table-striped" style="width:100%;stycellspacing=0;">
+									<thead>
+										<tr>
+											<th>N°</th
+											><th>Date</th>
+											<th>Etat JE</th>
+											<th>Etat</th>
+											<th>Annulée</th>
+											<th>Nbr d'empl.</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+	
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
+							</div>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+	
+				<!-- Modal -->
+				<div class="modal fade" id="modalRechercherEntreprise" tabindex="-1" role="dialog" aria-labelledby="modalRechercherEntreprise"
+					aria-hidden="true" style="display: none;">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title"><i class="fa fa-building fa-fw"></i> Rechercher Des Entreprise</h4>
+							</div>
+							<div class="modal-body">
+								<form role="form" id="formRechercherEntreprise">
+									<div class="panel panel-info">
+										<div class="panel-heading"> Information relative à l'entreprise</div>
+										<div class="panel-body">
+											<div class="col-lg-10 col-md-offset-1">
+												<div class="form-group">
+													<label>Nom de l'entreprise</label> 
+													<input class="form-control" name="nomEntreprise" type="text">
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="panel panel-info">
+										<div class="panel-heading"> Adresse de facturation</div>
+										<div class="panel-body">
+											<div class="row">
+												<div class="col-lg-7">
+													<div class="form-group">
+														<label>Rue</label> 
+														<input class="form-control" name="rue" type="text">
+													</div>
+												</div>
+												<div class="col-lg-3">
+													<div class="form-group">
+														<label>N°</label>
+														<input class="form-control" name="numero" type="text">
+													</div>
+												</div>
+												<div class="col-lg-2">
+													<div class="form-group">
+														<label>Boîte</label> 
+														<input class="form-control" name="boite" type="text">
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-lg-6">
+													<div class="form-group">
+														<label>Commune</label> 
+														<input class="form-control" name="commune" type="text">
+													</div>
+												</div>
+												<div class="col-lg-6">
+													<div class="form-group">
+														<label>Code postal</label> 
+														<input class="form-control" name="codePostal" type="text">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-10 col-md-offset-1">
+											<div class="messageErreur"></div>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">Retour</button>
+								<button type="button" class="btn btn-primary"
+									id="buttonRechercherEntreprise">Rechercher</button>
+							</div>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+	
+	
+				<!-- Modal -->
+				<div class="modal fade" id="modalCreerEntreprise" tabindex="-1" role="dialog" aria-labelledby="modalCreerEntrepriseLabel"
+					aria-hidden="true" style="display: none;">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="modalCreerEntrepriseLabel">
+									<i class="fa fa-building fa-fw"></i> Ajout d'une Entreprise
+								</h4>
+							</div>
+							<div class="modal-body">
+								<form role="form" id="formInsererEntreprise">
+									<div class="panel panel-info">
+										<div class="panel-heading"> Information relative à l'entreprise</div>
+										<div class="panel-body">
+											<div class="col-lg-10 col-md-offset-1">
+												<div class="form-group">
+													<label>Nom de l'entreprise</label> 
+													<input class="form-control" name="nomEntreprise" type="text">
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="panel panel-info">
+										<div class="panel-heading"> Adresse de facturation</div>
+										<div class="panel-body">
+											<div class="row">
+												<div class="col-lg-7">
+													<div class="form-group">
+														<label>Rue</label> 
+														<input class="form-control" name="rue" type="text">
+													</div>
+												</div>
+												<div class="col-lg-3">
+													<div class="form-group">
+														<label>NÂ°</label>
+														<input class="form-control" name="numero" type="text">
+													</div>
+												</div>
+												<div class="col-lg-2">
+													<div class="form-group">
+														<label>Boîte</label> 
+														<input class="form-control" name="boite" type="text">
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-lg-6">
+													<div class="form-group">
+														<label>Commune</label> 
+														<input class="form-control" name="commune" type="text">
+													</div>
+												</div>
+												<div class="col-lg-6">
+													<div class="form-group">
+														<label>Code postal</label> 
+														<input class="form-control" name="codePostal" type="text">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-10 col-md-offset-1">
+											<div class="messageErreur"></div>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
+								<button type="button" class="btn btn-primary" id="buttonInsererEntreprise">Ajouter</button>
+							</div>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+	
+			</div>
+			<!-- FIN ENTREPRISES -->
+			
+			
+			<!-- PERSONNES DE CONTACT -->
+			<div id="section-personnesDeContact" style="display: none">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-lg-12">
+							<h1 class="page-header"> Personnes de contact<span style="float: right;">
+									<button class="btn btn-outline btn-primary" data-toggle="modal" data-target="#modalRechercherPersonneContact">
+										<i class="fa fa-plus-square fa-fw"></i> Rechercher
+									</button>
+									<button id="buttonPCAjouter" class="btn btn-outline btn-primary" data-toggle="modal" data-target="#modalCreerPersonneDeContact">
+										<i class="fa fa-plus-square fa-fw"></i> Ajouter
+									</button>
+								</span>
+							</h1>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									Listing des personnes de contact
+								</div>
+								<div id="lesPersonnesContactContainer" class="panel-body">
+									<!-- Table d'affichage des personneDeContact -->
+									<table id="lesPersonnesContact" class="table table-striped responsive" style="width:100%;stycellspacing=0;">
+										<thead>
+											<tr>
+												<th>Nom</th>
+												<th>Prenom</th>
+												<th>Téléphone</th>
+												<th>E-mail</th>
+												<th>Nom entreprise</th>	
+												<th>Actif</th>												
+												<th>Actions</th>
+											</tr>
+										</thead>
+										<tbody>														
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+	
+				<!-- Modal -->
+				<div class="modal fade" id="modalInformationEntreprise" tabindex="-1" role="dialog" aria-labelledby="modalInformationEntreprise" aria-hidden="true"
+					style="display: none;">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="modalInformationEntrepriseLabel">
+									<i class="fa fa-building fa-fw"></i> Information Entreprise												
+								</h4>
+							</div>
+							<div class="modal-body">
+								<label>Nom :</label>
+								<div id="informationEntrepriseNompc" style="display: inline;"></div>
+								<br> <label>Adresse :</label>
+								<div id="informationEntrepriseAdressepc"
+									style="display: inline;"></div>
+								<br>
+								<div id="informationEntrepriseParticipationContrainer">
+									<!-- Table d'affichage du personnel participant -->
+									<table class="table" id="tableInformationParticipationEntreprise">
+									</table>
+								</div>
+							</div>
+	
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
+							</div>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+	
+				<!-- Modal -->
+				<div class="modal fade" id="modalCreerPersonneDeContact" tabindex="-1" role="dialog" aria-labelledby="modalCreerPersonneDeContactLabel"
+					aria-hidden="true" style="display: none;">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="modalCreerPersonneDeContactLabel">
+									<span class="glyphicon glyphicon-user"></span> Ajout d'une Personne de Contact
+								</h4>
+							</div>
+							<div class="modal-body">
+								<form role="form" id="formInsererPersonneDeContact">
+									<div class="panel panel-info">
+										<div class="panel-heading"> Informations personnelles</div>
+										<div class="panel-body">
+											<div class="row">
+												<div class="col-lg-6">
+													<div class="form-group">
+														<label>Nom</label>
+														<input class="form-control" name="nom" type="text">
+													</div>
+												</div>
+												<div class="col-lg-6">
+													<div class="form-group">
+														<label>Prénom</label> <input class="form-control" name="prenom" type="text">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="panel panel-info">
+										<div class="panel-heading"> Informations professionnelles</div>
+										<div class="panel-body">
+											<div class="form-group input-group">
+												<span class="input-group-addon"><i class="fa fa-envelope fa-fw"></i></span>
+													<input type="email" class="form-control" name="email" placeholder="E-mail">
+											</div>
+											<div class="form-group input-group">
+												<span class="input-group-addon"><i class="fa fa-phone fa-fw"></i></span>
+												<input type="tel" class="form-control" name="telephone" placeholder="N° Téléphone">
+											</div>
+										</div>
+									</div>
+									<div class="panel panel-info">
+										<div class="panel-heading"> Entreprise</div>
+										<div class="panel-body">
+											<div class="col-lg-10 col-md-offset-1">
+												<div class="form-group">
+													<select class="selectpicker show-tick" data-width="100%">
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-10 col-md-offset-1">
+											<div class="messageErreur"></div>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
+								<button type="button" class="btn btn-primary" id="buttonInsererPersonneDeContact">Ajouter</button>
+							</div>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+							
+				<div class="modal fade" id="modalRechercherPersonneContact" tabindex="-1" role="dialog" aria-labelledby="modalRechercherPersonneContact"
+						aria-hidden="true" style="display: none;">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title">
+									<i class="fa fa-building fa-fw"></i> Rechercher personne de contact
+								</h4>
+							</div>
+							<div class="modal-body">
+								<form role="form" id="formRechercherContact">
+									<div class="panel panel-info">
+									<div class="panel-heading"> Informations personnelles</div>
+									<div class="panel-body">
+										<div class="row">
+											<div class="col-lg-6">
+												<div class="form-group">
+													<label>Nom</label> 
+													<input class="form-control" name="nom" type="text">
+												</div>
+											</div>
+											<div class="col-lg-6">
+												<div class="form-group">
+													<label>Prénom</label> 
+													<input class="form-control" name="prenom" type="text">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+									<div class="row">
+										<div class="col-lg-10 col-md-offset-1">
+											<div class="messageErreur"></div>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
+								<button type="button" class="btn btn-primary" id="buttonRechercherContact">Rechercher</button>
+							</div>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+							
+				<!-- Modal -->
+				<div class="modal fade" id="modalEditerPersonneDeContact" tabindex="-1" role="dialog" aria-labelledby="modalEditerPersonneDeContactLabel"
+					aria-hidden="true" style="display: none;">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="modalCreerPersonneDeContactLabel">
+									<span class="glyphicon glyphicon-edit"></span> Modification des informations d'une
+									Personne de Contact
+								</h4>
+							</div>
+							<div class="modal-body">
+								<form role="form" id="formEditPersonneDeContact" data-objpersonne="">
+									<div class="panel panel-info">
+										<div class="panel-heading"> Informations personnelles</div>
+										<div class="panel-body">
+											<div class="row">
+												<div class="col-lg-6">
+													<div class="form-group">
+														<label>Nom</label> 
+														<input class="form-control" name="nom" type="text">
+													</div>
+												</div>
+												<div class="col-lg-6">
+													<div class="form-group">
+														<label>Prénom</label> 
+														<input class="form-control" name="prenom" type="text">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="panel panel-info">
+										<div class="panel-heading"> Informations professionnelles</div>
+										<div class="panel-body">
+											<div class="form-group input-group">
+												<span class="input-group-addon"><i class="fa fa-envelope fa-fw"></i></span>
+													<input type="email" class="form-control" name="email" placeholder="E-mail">
+											</div>
+											<div class="form-group input-group">
+												<span class="input-group-addon"><i class="fa fa-phone fa-fw"></i></span>
+												<input type="tel" class="form-control" name="telephone" placeholder="N° Téléphone">
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-10 col-md-offset-1">
+											<div class="messageErreur"></div>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
+								<button type="button" class="btn btn-primary" id="buttonEditPersonneDeContact">Sauvegarder</button>
+							</div>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+							
+			</div>
+			<!-- FIN PERSONNES DE CONTACT -->
+		</div>
+		<!-- FIN PAGE WRAPPER -->	
+	</div>
+	<!-- FIN WRAPPER -->
+	
+	<!-- Import diverses JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+	<script src="./bootstrap/vendor/jquery/jquery.min.js"></script>
+	<script src="./bootstrap/vendor/metisMenu/metisMenu.min.js"></script>
+	<script src="./bootstrap/vendor/raphael/raphael.min.js"></script>
+	<script src="./bootstrap/vendor/morrisjs/morris.min.js"></script>
+	<script src="./bootstrap/dist/js/sb-admin-2.js"></script>
+	<script src="./bootstrap/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="./bootstrap/vendor/notify/bootstrap-notify.min.js"></script>
+	<script src="./bootstrap/datatables/js/jquery.dataTables.js"></script>
+	<script src="./bootstrap/datatables/js/dataTables.bootstrap.min.js"></script>
+	<script src="./bootstrap/vendor/datatables-responsive/dataTables.responsive.js"></script>
+	<script src="./bootstrap/vendor/datatables-responsive/responsive.bootstrap.min.js"></script>
+	<script src="./bootstrap/vendor/bootstrap-select/js/bootstrap-select.min.js"></script>
+	
+	<!-- Nos scripts JS -->
+	<script src="./js/myScript.js"></script>
+</body>
+</html>
