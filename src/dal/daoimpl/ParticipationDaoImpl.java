@@ -348,10 +348,9 @@ public class ParticipationDaoImpl implements ParticipationDao {
    */
   @Override
   public Participation updateEtatParticipation(ParticipationDto participationDto) {
-    System.out.println(participationDto.getEtat());
     try {
       ResultSet rs = dalBackendServices.prepare("UPDATE pae.participations SET etat = '"
-          + participationDto.getEtat() + "', version = version + 1 " + "WHERE id_participation = "
+          + participationDto.getEtat() + "', version = version + 1 WHERE id_participation = "
           + participationDto.getIdParticipation() + " AND version = "
           + participationDto.getVersion() + " RETURNING *;");
 
@@ -359,9 +358,9 @@ public class ParticipationDaoImpl implements ParticipationDao {
         return null;
       }
 
-      participationDto = remplirParticipation(rs);
+      Participation p = remplirParticipation(rs);
 
-      return (Participation) participationDto;
+      return p;
     } catch (Exception exception) {
       exception.printStackTrace();
       System.out.println(exception.getMessage());

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import bizz.domaine.Participation;
 import bizz.domaine.ParticipationImpl.Etat;
 import bizz.dto.EntrepriseDto;
 import bizz.dto.JourneeEntrepriseDto;
@@ -161,8 +162,7 @@ public class ParticipationUccImpl implements ParticipationUcc {
   public ParticipationDto updateEtatParticipation(ParticipationDto part) {
     try {
       dalServices.startTransaction();
-      ParticipationDto newParticipation =
-          (ParticipationDto) participationDao.updateEtatParticipation(part);
+      Participation newParticipation = participationDao.updateEtatParticipation(part);
       if (newParticipation == null) {
         dalServices.rollbackTransaction();
         throw new BizzException(

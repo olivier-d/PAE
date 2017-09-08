@@ -536,13 +536,23 @@ function afficherModalModificationParticipants(idParticipation, idEntreprise){
             data : personnels[0],
             "dom": "rt",        
             columns: [
-            	{"data": "idPersonneContact", "render" : function(data, type, objet) {
-                    return "<input id=checkIdPers" +data+ " type='checkbox' name='tabPersInvit[]' value=" + data + " />";
-                }},
-                {"data": "nom"},
-                {"data": "prenom"},
-                {"data": "email"},
-                {"data": "actif",
+            	{
+            		"data": "idPersonneContact", 
+            		"render" : function(data, type, objet) {
+            			return "<input id=checkIdPers" +data+ " type='checkbox' name='tabPersInvit[]' value=" + data + " />";
+            		}
+            	},
+                {
+            		"data": "nom"
+            	},
+                {
+            		"data": "prenom"
+            	},
+                {
+            		"data": "email"
+            	},
+                {
+            		"data": "actif",
                     "render" : function(data, type, objet) {
                         if (data) {
                             return "<fieldset disabled>" +

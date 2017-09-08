@@ -139,7 +139,6 @@ public class MaServlet extends DefaultServlet {
       String response = "";
 
       response += readFile("html/header.html", StandardCharsets.UTF_8);
-      response += readFile("html/notifications.html", StandardCharsets.UTF_8);
       response += readFile("html/connexion.html", StandardCharsets.UTF_8);
       response += readFile("html/inscription.html", StandardCharsets.UTF_8);
       response += readFile("html/navigation.html", StandardCharsets.UTF_8);
@@ -648,6 +647,7 @@ public class MaServlet extends DefaultServlet {
 
   protected String modifierPersonneContact(HttpServletRequest req) {
     String pers = req.getParameter("personne");
+    System.out.println(pers);
     PersonneContactDto pcD = this.genson.deserialize(pers, PersonneContactImpl.class);
     personneContactUcc.modifierPersonneContact(pcD);
     return "Modification personne de contact réussie";
@@ -736,7 +736,6 @@ public class MaServlet extends DefaultServlet {
     participation.setIdParticipation(Integer.parseInt(req.getParameter("idParticipation")));
     participation.setEtat(Etat.getEtatByAbreviation(req.getParameter("etat")));
     participation.setVersion(Integer.parseInt(req.getParameter("version")));
-    System.out.println(req.getParameter("version"));
     participation = this.participationUcc.updateEtatParticipation(participation);
     return "Participation n°" + participation.getIdParticipation() + " est à l'état "
         + participation.getEtat().toString();

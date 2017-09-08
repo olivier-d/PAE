@@ -239,23 +239,26 @@ var app;
 		
 		function objetDestroy() {
 			var $section = Utils.getSectionAffichee();
-			switch ($section.attr('id')) {
-				case 'section-dashboard':
-					Dashboard.destroy();
-					break;
-				case 'section-journees':
-					Journee.destroy();
-					break;
-				case 'section-gestionJE':
-					Gestion.destroy();
-					break;
-				case 'section-entreprises':
-					Entreprise.destroy();
-					break;
-				case 'section-personnesDeContact':
-					Personne.destroy();
-					break;
+			if ($section !== undefined) {
+				switch ($section.attr('id')) {
+					case 'section-dashboard':
+						Dashboard.destroy();
+						break;
+					case 'section-journees':
+						Journee.destroy();
+						break;
+					case 'section-gestionJE':
+						Gestion.destroy();
+						break;
+					case 'section-entreprises':
+						Entreprise.destroy();
+						break;
+					case 'section-personnesDeContact':
+						Personne.destroy();
+						break;
+				}
 			}
+			
 		}
 		
 		function bindAll() {
@@ -428,6 +431,8 @@ var app;
 				$tr = $(this).closest('tr');
 				modifierEtatParticipation($tr.data('objet').key.idParticipation, 'REFUSEE', $tr.data('objet').key.version);
 			});
+			
+			// TODO 
 			$table.on('change', 'tbody td .etat-participation', function() {
 				$tr = $(this).closest('tr');
 				modifierEtatParticipation($tr.data('objet').key.idParticipation, $(this).find(':selected').val(), $tr.data('objet').key.version);
@@ -436,6 +441,11 @@ var app;
 			$table.on('click', 'tbody td .voir-participants', function() {
 				var objet = $(this).closest('tr').data('objet');
 				ModalAfficherParticipants.setInformation(objet.key.idParticipation, objet.key.idEntreprise);
+			});
+			
+			$table.on('click', 'tbody td .editer-participants', function() {
+				var objet = $(this).closest('tr').data('objet');
+				ModalEditerParticipants.setInformation(objet.key.idParticipation, objet.key.idEntreprise);
 			});
 				
 			$buttonCreerJE.on('click', function() {
@@ -452,6 +462,7 @@ var app;
 		}
 		
 		function modifierEtatParticipation(idParticipation, etat, version) {
+			console.log(idParticipation + " - " + etat + " - " + version);
 			var json = 'idParticipation='+idParticipation+'&etat='+etat+'&version='+version;
 	        var retour = Ajax.ajax('/updateEtatParticipation', json);
 	        if (retour.success) {
@@ -545,14 +556,9 @@ var app;
 	                {
 	            		data: function ( row, type, val, meta ) {
 		                    if (row.key.etat === "INVITEE") {
-		                        return "<button type=\"button\" class=\"confirmer-participation btn btn-success btn-sm\" " +
-			                        "aria-labal=\"Center Align\"> " +
-			                        "<span class=\"glyphicon glyphicon-ok-circle\" aria-hidden=\"true\"></span>" +
-			                        " Confirmer</button>  " +
-			                        "<button type=\"button\" class=\"refuser-participation btn btn-danger btn-sm\" " +
-			                        "aria-labal=\"Center Align\" style=\"width:90px;\"> " +
-			                        "<span class=\"glyphicon glyphicon-remove-circle\" aria-hidden=\"true\"></span>" +
-			                        " Refuser</button>";
+		                        return '<button type="button" class="confirmer-participation btn btn-success btn-sm" aria-labal="Center Align"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Confirmer</button>' +
+		                        		'<button type="button" class="refuser-participation btn btn-danger btn-sm" aria-labal="Center Align" style="width:90px;">' +
+		                        		'<span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Refuser</button>';
 		                    } else if (row.key.etat !== "REFUSEE") {
 		                        var select = "<select class='etat-participation selectpicker show-tick' data-width='auto'>"+ 
 		                            "<option value='CONFIRMEE'>Confirmée</option>" +
@@ -573,13 +579,10 @@ var app;
 	                {
 	            		data: function ( row, type, val, meta ) {
 		                    if (row.key.annulee === false) {
-		                        return "<button type=\"button\" class=\"annuler-participation btn btn-outline btn-danger btn-sm\" " +
-			                        "aria-labal=\"Center Align\"><span class=\"glyphicon glyphicon-remove-circle\" aria-hidden=\"true\"></span> Annuler</button>";
+		                        return '<button type="button" class="annuler-participation btn btn-outline btn-danger btn-sm" "aria-labal="Center Align">' +
+		                        		'<span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Annuler</button>';
 		                    } else {
-		                        return "<fieldset disabled>" +
-			                        "<button type=\"button\" class=\"btn btn-default btn-sm\">" +
-			                        "<span class=\"glyphicon glyphicon-check\" aria-hidden=\"true\"></span> Part. annulée" +
-			                        "</button></fieldset>";
+		                        return '<fieldset disabled><button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> Part. annulée</button></fieldset>';
 		                    }
 	            		}
 	            	},
@@ -599,11 +602,8 @@ var app;
 	                {
 	            		data: function ( row, type, val, meta ) { 
 		                    if (row.key.etat !== "INVITEE" && row.key.etat !== "REFUSEE") {
-		                        return "<button type=\"button\" class=\"btn btn-outline btn-primary btn-sm\" " +
-		                                "aria-labal=\"Center Align\" onclick=\"afficherModalModificationParticipants("+row.key.idParticipation+","+row.key.idEntreprise+")\" " +
-		                            "data-toggle=\"modal\" data-target=\"#modalAjouterPDCaParticipation\">" +
-		                            "<span class=\"fa fa-edit \" aria-hidden=\"true\"></span>" +
-		                            " Editer participants</button>";
+		                        return '<button type="button" class="editer-participants btn btn-outline btn-primary btn-sm" "aria-labal="Center Align" data-toggle="modal" data-target="#modalEditerParticipants">' +
+		                            	'<span class="fa fa-edit " aria-hidden="true"></span> Editer participants</button>';
 		                    }else {
 		                        return "";
 		                    }
@@ -708,10 +708,17 @@ var app;
 		
 		// Obliger de destroy et de rappeller la methode pour avoir les data
 		function initializeTable() {
-			var data = Ajax.ajax('/getEntreprisesInvitablesEtInvitees');
+			var test;
 			table = $table.DataTable( {
 	            serverSide: false,
-	            data: data[0],
+	            ajax: {
+	                url: '/getEntreprisesInvitablesEtInvitees',
+	                type: "POST",
+	                dataSrc: function ( json ) {
+	                	test = json[1];
+	                	return json[0];
+	                }
+	            },
 	            autoWidth: false,
 	            language: dataTablesLanguage,
 	            createdRow: function (row, objet, index) {
@@ -719,9 +726,18 @@ var app;
 	            },
 	            columns: [
 	            	{
+	            		orderable: false,
 	            		data: function ( row, type, val, meta ) {
 	            			return "<input id=checkIdEnt" + row.idEntreprise + " type='checkbox' name='tabInvitations[]' value=" + row.idEntreprise + " />";
-	            		}
+	            		},
+	            		render : function(data, type, objet) {
+	            			for (var i=0; i<test.length; i++) {
+	            				if (test[i].idEntreprise === objet.idEntreprise) {
+	            		            return "<input id=checkIdEnt" + objet.idEntreprise + " type='checkbox' name='tabInvitations[]' value=" + objet.idEntreprise + " checked disabled/>";
+	            				}
+	            			}
+	            			return data;
+	                    }
 	            	},
 	                {
 	            		data: "nomEntreprise"
@@ -757,14 +773,15 @@ var app;
 	                        }
 	                    }
 	                }
-	            ]
+	            ],
+	            order: [[1, 'asc']]
 	        });
-			cocherInvitations(data);
+			//cocherInvitations(data);
 		}
 		
 		function cocherInvitations(data) {
-			for (var i = 0; i < data[1].length; i++) {
-	            var idEnt = data[1][i].idEntreprise;
+			for (var i = 0; i < data.length; i++) {
+	            var idEnt = data[i].idEntreprise;
 	            $('#checkIdEnt'+idEnt).prop('checked', true).attr('disabled', 'true');
 	        }
 		}
@@ -1211,10 +1228,9 @@ var app;
 		var idEntreprise;
 		
 		var $modal = $('#modalAfficherParticipants');
-		var $table = $modal.find('table');
+		var $table = $modal.find('table');		
 		
-		
-		function initializeTable() {		
+		function initializeTable() {
 			table = $table.DataTable( {
 	            serverSide: false,
 	            ajax: {
@@ -1224,36 +1240,29 @@ var app;
 	                    d.idParticipation = idParticipation,
 	                    d.idEntreprise = idEntreprise
 	                },
-	                dataSrc: ""
+	                dataSrc: function ( json ) {
+	                	return json[1];
+	                }
 	            },
 	            autoWidth: false,
 	            language: dataTablesLanguage,
 	            dom: "rt",
 	            columns: [
+	                {
+	            		data: "nom"
+	            	},
+	                {
+	            		data: "prenom"
+	            	},
 	            	{
-	            		"data": function ( row, type, val, meta ) {
-	            			console.log(row);
-	            			return row[1].nom;
-	            		}
+	            		data: "telephone"
 	            	},
 	                {
-	            		"data": function ( row, type, val, meta ) {
-	            			return row[1].prenom;
-	            		}
+	            		data: "email"
 	            	},
 	                {
-	            		"data": function ( row, type, val, meta ) {
-	            			return row[1].telephone;
-	            		}
-	            	},
-	                {
-	            		"data": function ( row, type, val, meta ) {
-	            			return row[1].email;
-	            		}
-	            	},
-	                {
-	            		"data": function ( row, type, val, meta ) {
-	            			if (row[1].actif) {
+	            		data: function ( row, type, val, meta ) {
+	                        if (row.actif) {
 	                            return "<fieldset disabled>" +
 	                            "<button type=\"button\" class=\"btn btn-outline btn-success btn-xs\">" +
 	                            "<span class=\"fa fa-check\" aria-hidden=\"true\"></span> Actif" +
@@ -1268,7 +1277,6 @@ var app;
 	                }
 	            ]
 	        });
-	        
 		}
 		
 		function updateTable() {
@@ -1278,12 +1286,141 @@ var app;
 		function setInformation(newParticipation, newIdEntreprise) {
 			idParticipation = newParticipation;
 			idEntreprise = newIdEntreprise;
-			console.log('-> ' + idParticipation + ' ' + idEntreprise);
 			if (!table) {
 				initializeTable();
 			} else {
 				updateTable();
 			}
+		}
+		
+		return {
+			setInformation: setInformation
+		}
+	})();
+	
+	
+	var ModalEditerParticipants = (function() {
+		var table;
+		var idParticipation;
+		var idEntreprise;
+		
+		var isDisplayed = false;
+		var $modal = $('#modalEditerParticipants');
+		var $form = $modal.find('form');
+		var $table = $modal.find('table');
+		
+		function bindAll() {
+			$form.on('submit', submitHandler);
+		}
+		
+		function submitHandler(e) {
+			e.preventDefault();
+			
+			var inputCheck = $modal.find("input[type='checkbox'][name='tabPersInvit[]']");
+		    var jsonTab = [];
+		    for (var i = 0; i < inputCheck.length; i++) {
+		        if ($(inputCheck[i]).is(':checked')) {
+		            if ( ! $(inputCheck[i]).attr('disabled')) {
+		                jsonTab.push($(inputCheck[i]).val());
+		            }
+		        }
+		    }
+		    var json = 'tabIdPersonneContact=' + JSON.stringify(jsonTab) + "&idParticipation=" + idParticipation;
+		    var listeIdEntreprise = Ajax.ajax('/insererPersonneContactParticipation', json);
+		    if (listeIdEntreprise.success) {
+		        
+		    }
+		}
+		
+		function initializeTable() {
+			var tabPersInvitees;
+			table = $table.DataTable( {
+	            serverSide: false,
+	            ajax: {
+	                url: '/getPersonnesEtPersonnesInviteesParticipation',
+	                type: "POST",
+	                data: function ( d ) {
+	                    d.idParticipation = idParticipation,
+	                    d.idEntreprise = idEntreprise
+	                },
+	                dataSrc: function ( json ) {
+	                	tabPersInvitees = json[1];
+	                	return json[0];
+	                }
+	            },
+	            autoWidth: false,
+	            language: dataTablesLanguage,
+	            dom: "rt",
+	            columns: [
+	            	{	
+	            		orderable: false,
+	            		data: function ( row, type, val, meta ) { 
+	            			return "<input id=checkIdPers" +row.idPersonneContact+ " type='checkbox' name='tabPersInvit[]' value=" + row.idPersonneContact + " />";
+	            		},
+		            	render : function(data, type, objet) {
+	            			for (var i=0; i<tabPersInvitees.length; i++) {
+	            				if (tabPersInvitees[i].idEntreprise === objet.idEntreprise) {
+	            		            return "<input id=checkIdPers" + objet.idPersonneContact + " type='checkbox' name='tabPersInvit[]' value=" + objet.idPersonneContact + " checked disabled/>";
+	            				}
+	            			}
+	            			return data;
+		            	}
+	            	},
+	            	{
+	            		data: "nom"
+	            	},
+	                {
+	            		data: "prenom"
+	            	},
+	                {
+	            		data: "telephone"
+	            	},
+	                {
+	            		data: "email"
+	            	},
+	                {
+	            		data: function ( row, type, val, meta ) {
+	            			if (row.actif) {
+	                            return "<fieldset disabled>" +
+	                            "<button type=\"button\" class=\"btn btn-outline btn-success btn-xs\">" +
+	                            "<span class=\"fa fa-check\" aria-hidden=\"true\"></span> Actif" +
+	                            "</button></fieldset>";
+	                        } else {
+	                            return "<fieldset disabled>" +
+	                            "<a type=\"button\" class=\"btn btn-outline btn-danger btn-xs\">" +
+	                            "<span class=\"fa fa-times\" aria-hidden=\"true\"></span> Inactif" +
+	                            "</a></fieldset>";
+	                        }
+	                    }
+	                }
+	            ],
+	            order: [[1, 'asc']]
+	        });  
+		}
+		
+		function updateTable() {
+            table.ajax.reload();
+        }
+		
+		function setInformation(newParticipation, newIdEntreprise) {
+			idParticipation = newParticipation;
+			idEntreprise = newIdEntreprise;
+			if (! isDisplayed) {
+				init();
+				initializeTable();
+			} else {
+				updateTable();
+			}
+		}
+		
+		function init() {
+			bindAll();
+			isDisplayed = true;
+		}
+		
+		function destroy() {
+            $(".modal.in").modal("hide");
+            Utils.cleanForm($form);
 		}
 		
 		return {
@@ -1616,16 +1753,17 @@ var app;
 			e.preventDefault();
 			
 			Utils.supprimerMessageErreur($form);
-			var personne = Utils.formToJson($form);
-			personne["idPersonneContact"] = personne.idPersonneContact;
-			personne["version"] = personne.version;
-
-		    var json = 'personne=' + JSON.stringify(personne);
+			var objet = Utils.formToJson($form);
+			objet["idPersonneContact"] = personne.idPersonneContact;
+			objet["version"] = personne.version;
+			
+		    var json = 'personne=' + JSON.stringify(objet);
+		    console.log(json);
 		    var inputVide = [];
 		    if (Utils.testInputNonVide($form, inputVide)) {
 		        var retour = Ajax.ajax('/modifierPersonneContact', json, $form);
 		        if (retour.success) {
-		            Personne.reloadTable();
+		            Personne.updateTable();
 		            destroy();
 		        }
 		    }
