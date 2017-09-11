@@ -450,12 +450,12 @@ var app;
 			// COMMENTAIRE
 			$table.on('click', 'tbody td .ajouter-commentaire', function() {
 				var objet = $(this).closest('tr').data('objet');
-				ModalCommentaire.setInformation(objet.key.idParticipation, undefined);
+				ModalCommentaire.setInformation(objet.key.idParticipation, undefined, objet.key.version);
 			});
 			
 			$table.on('click', 'tbody td .modifier-commentaire', function() {
 				var objet = $(this).closest('tr').data('objet');
-				ModalCommentaire.setInformation(objet.key.idParticipation, objet.key.commentaire);
+				ModalCommentaire.setInformation(objet.key.idParticipation, objet.key.commentaire, objet.key.version);
 			});
 				
 			$buttonCreerJE.on('click', function() {
@@ -1480,6 +1480,7 @@ var app;
 	var ModalCommentaire = (function() {
 		
 		var idParticipation;
+		var version;
 		
 		var isDisplayed = false;
 		
@@ -1503,7 +1504,7 @@ var app;
 			e.preventDefault();
 			
 			Utils.supprimerMessageErreur($form);
-		    var json = 'idParticipation=' + idParticipation + '&commentaire=' + $commentaire.val();
+		    var json = 'idParticipation=' + idParticipation + '&commentaire=' + $commentaire.val() + '&version=' + version;
 		    console.log(json);
 		    var inputVide = [];
 		    if (Utils.testInputNonVide($form, inputVide)) {
@@ -1515,8 +1516,9 @@ var app;
 		    }
 		}
 		
-		function setInformation(newIdParticipation, commentaire) {
+		function setInformation(newIdParticipation, commentaire, newVersion) {
 			idParticipation = newIdParticipation;
+			version = newVersion;
 			if (! isDisplayed) {
 				init();
 			}
