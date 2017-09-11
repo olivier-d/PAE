@@ -446,6 +446,12 @@ var app;
 				var objet = $(this).closest('tr').data('objet');
 				ModalEditerParticipants.setInformation(objet.key.idParticipation, objet.key.idEntreprise);
 			});
+			
+			// COMMENTAIRE
+			$table.on('click', 'tbody td .ajouter-commentaire', function() {
+				var objet = $(this).closest('tr').data('objet');
+				ModalCreerCommentaire.setIdParticipation(objet.key.idParticipation);
+			});
 				
 			$buttonCreerJE.on('click', function() {
 				ModalCreerJE.init();
@@ -605,6 +611,17 @@ var app;
 		                            	'<span class="fa fa-edit " aria-hidden="true"></span> Editer participants</button>';
 		                    }else {
 		                        return "";
+		                    }
+	            		}
+	            	},
+	            	{
+	            		data: function ( row, type, val, meta ) { 
+		                    if (row.key.commentaire !== "") {
+		                        return '<button type="button" class="ajouter-commentaire btn btn-outline btn-primary btn-sm" "aria-labal="Center Align" data-toggle="modal" data-target="#modalCreerCommentaire">' +
+		                            	'<span class="fa fa-plus-square fa-fw " aria-hidden="true"></span> Commentaire</button>';
+		                    }else {
+		                        return '<button type="button" class="modifier-commentaire btn btn-outline btn-primary btn-sm" "aria-labal="Center Align" data-toggle="modal" data-target="#modalModifierCommentaire">' +
+                            			'<span class="fa fa-plus-square fa-fw " aria-hidden="true"></span> Voir commentaire</button>';
 		                    }
 	            		}
 	            	}
@@ -1451,6 +1468,66 @@ var app;
 		
 		return {
 			setInformation: setInformation
+		}
+	})();
+	
+	var ModalCreerCommentaire = (function() {
+		
+		var idParticipation;
+		
+		var isDisplayed = false;
+		
+		var $modal = $('#modalCreerCommentaire');
+		var $form = $modal.find('form');
+		var $commentire = $modal.find('textarea');
+		
+		function bindAll() {
+			$form.on('submit', submitHandler);
+			$modal.on('shown.bs.modal', function () {
+				$form.find('input:first').focus();
+			});
+			$modal.on('hidden.bs.modal', destroy);
+		}
+		
+		function unbindAll() {
+			$form.off('submit');
+		}
+		
+		function submitHandler(e) {
+			e.preventDefault();
+			
+			Utils.supprimerMessageErreur($form);
+		    var json = 'idParticipation=' + idParticipation + '&commentaire=' + JSON.stringify(Utils.formToJson($form));
+		    var inputVide = [];
+		    if (Utils.testInputNonVide($form, inputVide)) {
+		        var retour = Ajax.ajax('/insererCommentaire', json, $form);
+		        if (retour.success) {
+		        	destroy();
+		        	// TODO - refresh la table 
+		        }
+		    }
+		}
+		
+		function setIdParticipation(newIdParticipation) {
+			idParticipation = newIdParticipation;
+			if (isDisplayed) {
+				init();
+			}
+		}
+		
+		function init() {
+			bindAll();
+			isDisplayed = true;
+		}
+		
+		function destroy() {
+            $(".modal.in").modal("hide");
+            Utils.cleanForm($form);
+		}
+		
+		return {
+			setIdParticipation: setIdParticipation,
+			destroy: destroy
 		}
 	})();
 	
