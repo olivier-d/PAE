@@ -487,4 +487,23 @@ public class ParticipationDaoImpl implements ParticipationDao {
     return participation;
   }
 
+@Override
+public String setCommentaire(int idParticipation, String commentaire) {
+	try {
+	      ResultSet rs = dalBackendServices.prepare("UPDATE pae.participations SET commentaire = '"
+	          + commentaire + "' WHERE p.id_participation = " + idParticipation +" RETURNING commentaire;");
+
+	      if (!rs.next()) {
+	        return "";
+	      }
+	      
+	      return rs.getString(0);
+	      
+	    } catch (Exception exception) {
+	      exception.printStackTrace();
+	      System.out.println(exception.getMessage());
+	      throw new FatalException();
+	    }
+}
+
 }

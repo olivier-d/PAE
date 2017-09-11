@@ -33,5 +33,8 @@ public interface ParticipationDto {
   public ArrayList<PersonneContactDto> getPersonnesContact();
 
   public void ajouterPersonneContact(PersonneContactDto pdcDto);
-
+  
+  public void setCommentaire(String commentaire);
+  
+  public String getCommentaire();
 }

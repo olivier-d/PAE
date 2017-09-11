@@ -437,4 +437,10 @@ public class ParticipationDaoMock implements ParticipationDao {
   public Map<JourneeEntrepriseDto, Integer> nbrParticipationConfirmeeParJournees() {
     return null;
   }
+
+@Override
+public String setCommentaire(int idParticipation, String commentaire) {
+	return commentaire;
+}
+
 }

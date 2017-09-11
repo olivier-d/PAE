@@ -211,4 +211,23 @@ public class ParticipationUccImpl implements ParticipationUcc {
       throw new FatalException("Chargement graphique impossible");
     }
   }
+
+@Override
+public String updateCommentaire(int idParticipation, String commentaire) {
+	try {
+	      dalServices.startTransaction();
+	      commentaire = 
+	          this.participationDao.setCommentaire(idParticipation, commentaire);
+	      if (commentaire.equals("")) {
+	        dalServices.rollbackTransaction();
+	        throw new BizzException(
+	            "{\"fail\":\"Le commentaire n'a pas pu être rajouté.\"}");
+	      }
+	      this.dalServices.commitTransaction();
+	      return commentaire;
+	    } catch (FatalException exception) {
+	      dalServices.rollbackTransaction();
+	      throw new FatalException("Insertion commentaire impossible!");
+	    }
+}
 }

@@ -15,6 +15,7 @@ public class ParticipationImpl implements Participation {
   private int idJournee;
   private int idEntreprise;
   private ArrayList<PersonneContactDto> listePersonnes;
+  private String commentaire;
 
   public enum Etat {
     INVITEE("Invitee"), CONFIRMEE("Confirmee"), REFUSEE("Refusee"), FACTUREE("Facturee"), PAYEE(
@@ -59,6 +60,7 @@ public class ParticipationImpl implements Participation {
     this.version = 0;
     this.etat = Etat.INVITEE;
     this.listePersonnes = new ArrayList<PersonneContactDto>();
+    this.commentaire = "";
   }
 
   @Override
@@ -131,5 +133,15 @@ public class ParticipationImpl implements Participation {
     checkObject(pdcDto);
     this.listePersonnes.add(pdcDto);
   }
+
+@Override
+public void setCommentaire(String commentaire) {
+	this.commentaire = commentaire;
+}
+
+@Override
+public String getCommentaire() {
+	return this.commentaire;
+}
 
 }

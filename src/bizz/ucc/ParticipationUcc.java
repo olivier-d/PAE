@@ -32,5 +32,7 @@ public interface ParticipationUcc {
   List<PersonneContactDto> getIdPersonnesInviteesPourUneParticipation(int idParticipation);
 
   Map<JourneeEntrepriseDto, Integer> nbrParticipationConfirmeeParJournees();
+  
+  String updateCommentaire(int idParticipation, String commentaire);
 
 }

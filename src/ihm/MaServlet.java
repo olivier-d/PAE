@@ -321,6 +321,9 @@ public class MaServlet extends DefaultServlet {
         case "isJourneeActive":
           reponse = isJourneeActive(req);
           break;
+        case "insererCommentaire":
+      	  reponse = insererCommentaire(req);
+      	  break;
       }
 
       // Je vérifie l'id + la version + si il est responsable
@@ -794,6 +797,13 @@ public class MaServlet extends DefaultServlet {
     }
     this.participationUcc.insererPersonneContactParticipation(listePdcs, idParticipation);
     return "Insertion pers. de contact pour la participation n°" + idParticipation + " réussie";
+  }
+  
+  protected String insererCommentaire(HttpServletRequest req) {
+	  String commentaire = req.getParameter("commentaire");
+	  int idParticipation = Integer.parseInt(req.getParameter("idParticipation"));
+	  this.participationUcc.updateCommentaire(idParticipation, commentaire);
+	  return commentaire;
   }
 
 }
