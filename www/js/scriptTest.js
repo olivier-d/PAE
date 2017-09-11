@@ -450,13 +450,12 @@ var app;
 			// COMMENTAIRE
 			$table.on('click', 'tbody td .ajouter-commentaire', function() {
 				var objet = $(this).closest('tr').data('objet');
-				console.log("ajouter commentaire");
-				ModalCreerCommentaire.setInformation(objet.key.idParticipation, false);
+				ModalCommentaire.setInformation(objet.key.idParticipation, undefined);
 			});
 			
-			$table.on('click', 'tbody td .ajouter-commentaire', function() {
+			$table.on('click', 'tbody td .modifier-commentaire', function() {
 				var objet = $(this).closest('tr').data('objet');
-				ModalCreerCommentaire.setInformation(objet.key.idParticipation, true);
+				ModalCommentaire.setInformation(objet.key.idParticipation, objet.key.commentaire);
 			});
 				
 			$buttonCreerJE.on('click', function() {
@@ -623,10 +622,10 @@ var app;
 	            	{
 	            		data: function ( row, type, val, meta ) { 
 		                    if (row.key.commentaire === "") {
-		                        return '<button type="button" class="ajouter-commentaire btn btn-outline btn-primary btn-sm" "aria-labal="Center Align" data-toggle="modal" data-target="#modalCreerCommentaire">' +
+		                        return '<button type="button" class="ajouter-commentaire btn btn-outline btn-primary btn-sm" "aria-labal="Center Align" data-toggle="modal" data-target="#modalCommentaire">' +
 		                            	'<span class="fa fa-plus-square fa-fw " aria-hidden="true"></span> Commentaire</button>';
 		                    }else {
-		                        return '<button type="button" class="modifier-commentaire btn btn-outline btn-primary btn-sm" "aria-labal="Center Align" data-toggle="modal" data-target="#modalModifierCommentaire">' +
+		                        return '<button type="button" class="modifier-commentaire btn btn-outline btn-primary btn-sm" "aria-labal="Center Align" data-toggle="modal" data-target="#modalCommentaire">' +
                             			'<span class="fa fa-edit " aria-hidden="true"></span> Commentaire</button>';
 		                    }
 	            		}
@@ -676,6 +675,7 @@ var app;
 		return {
 			init: init,
 			refreshSelectJE: refreshSelectJE,
+			updateTable: updateTable,
 			destroy: destroy
 		}
 		
@@ -1477,14 +1477,13 @@ var app;
 		}
 	})();
 	
-	var ModalCreerCommentaire = (function() {
+	var ModalCommentaire = (function() {
 		
 		var idParticipation;
 		
 		var isDisplayed = false;
-		var isUpdate = false;
 		
-		var $modal = $('#modalCreerCommentaire');
+		var $modal = $('#modalCommentaire');
 		var $form = $modal.find('form');
 		var $commentaire = $modal.find('textarea');
 		
@@ -1511,16 +1510,19 @@ var app;
 		        var retour = Ajax.ajax('/insererCommentaire', json, $form);
 		        if (retour.success) {
 		        	destroy();
-		        	// TODO - refresh la table 
+		        	Journee.updateTable();
 		        }
 		    }
 		}
 		
-		function setInformation(newIdParticipation, newIsUpdate) {
+		function setInformation(newIdParticipation, commentaire) {
 			idParticipation = newIdParticipation;
-			isUpdate = newIsUpdate;
 			if (! isDisplayed) {
 				init();
+			}
+			
+			if (commentaire !== undefined) {
+				$commentaire.val(commentaire);
 			}
 		}
 		
@@ -1535,10 +1537,14 @@ var app;
 		}
 		
 		return {
-			setIdParticipation: setIdParticipation,
+			setInformation: setInformation,
 			destroy: destroy
 		}
 	})();
+	
+	 var ModalModifierCommentaire = (function() {
+		 
+	 })();
 	
 	var ModalCreerEntreprise = (function() {
 		
