@@ -196,7 +196,7 @@ public class EntrepriseDaoImpl implements EntrepriseDao {
   public List<EntrepriseDto> getEntreprisesInvitables() {
     List<EntrepriseDto> listeEntreprises = new ArrayList<>();
     try {
-      ResultSet rs = dalBackendServices.prepare("SELECT DISTINCT e.* FROM pae.entreprises e "
+      ResultSet rs = dalBackendServices.prepare("SELECT DISTINCT e.id_entreprise FROM pae.entreprises e "
           + "WHERE e.id_entreprise NOT IN " + "(SELECT e2.id_entreprise FROM pae.entreprises e2,"
           + " pae.participations p, pae.journees j "
           + "WHERE e2.id_entreprise = p.id_entreprise AND"
@@ -207,8 +207,9 @@ public class EntrepriseDaoImpl implements EntrepriseDao {
           + "OR date_part('year', e.date_premier_contact) = date_part('year', CURRENT_DATE) "
           + "AND e.date_derniere_participation IS NULL;");
       while (rs.next()) {
-        Entreprise entreprise = (Entreprise) remplirDonnees(rs);
-        listeEntreprises.add(entreprise);
+    	  Entreprise entreprise = (Entreprise) this.entrepriseFactory.creerEntreprise();
+          entreprise.setIdEntreprise(rs.getInt(1));
+          listeEntreprises.add(entreprise);
       }
       return listeEntreprises;
     } catch (Exception exception) {
@@ -267,4 +268,21 @@ public class EntrepriseDaoImpl implements EntrepriseDao {
     entreprise.setVersion(rs.getInt(11));
     return entreprise;
   }
+
+@Override
+public List<EntrepriseDto> getEntreprisesAvecCommentaires() {
+	List<EntrepriseDto> listeEntreprises = new ArrayList<>();
+    try {
+      ResultSet rs = this.dalBackendServices.prepare("SELECT DISTINCT e.id_entreprise FROM pae.entreprises e, pae.participations p WHERE e.id_entreprise = p.id_entreprise AND p.commentaire IS NOT NULL");
+
+      while (rs.next()) {
+        Entreprise entreprise = (Entreprise) this.entrepriseFactory.creerEntreprise();
+        entreprise.setIdEntreprise(rs.getInt(1));
+        listeEntreprises.add(entreprise);
+      }
+      return listeEntreprises;
+    } catch (Exception exception) {
+      throw new FatalException();
+    }
+	}
 }

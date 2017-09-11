@@ -23,4 +23,6 @@ public interface EntrepriseUcc {
   List<EntrepriseDto> getEntreprisesInvitables();
 
   List<EntrepriseDto> getEntreprisesInvitees();
+  
+  List<EntrepriseDto> getEntreprisesAvecCommentaires();
 }

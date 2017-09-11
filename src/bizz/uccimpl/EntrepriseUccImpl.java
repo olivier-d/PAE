@@ -139,4 +139,17 @@ public class EntrepriseUccImpl implements EntrepriseUcc {
     }
   }
 
+@Override
+public List<EntrepriseDto> getEntreprisesAvecCommentaires() {
+	try {
+	      dalServices.startTransaction();
+	      List<EntrepriseDto> listeEntreprises = this.entrepriseDao.getEntreprisesAvecCommentaires();
+	      dalServices.commitTransaction();
+	      return listeEntreprises;
+	    } catch (FatalException exception) {
+	      dalServices.rollbackTransaction();
+	      throw new FatalException("Chargement des entreprises avec commentaires impossible");
+	    }
+	}
+
 }

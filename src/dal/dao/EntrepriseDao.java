@@ -24,4 +24,6 @@ public interface EntrepriseDao {
   List<EntrepriseDto> getEntreprisesInvitables();
 
   List<EntrepriseDto> getEntreprisesInvitees();
+  
+  List<EntrepriseDto> getEntreprisesAvecCommentaires();
 }

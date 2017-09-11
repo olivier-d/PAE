@@ -620,16 +620,22 @@ public class MaServlet extends DefaultServlet {
   }
 
   /**
-   * Cle 0 pour la liste des entreprises invitables Cle 1 pour les entreprises déjà invitées,
-   * presence que de l'id
+   * 0 : Liste toutes les entreprises (Objet)
+   * 1 : Liste entreprises invitables (ID)
+   * 2 : Liste entreprises avec commentaires (ID)
+   * 3 : Liste entreprises invitees
    */
   protected Map<Integer, List<EntrepriseDto>> getEntreprisesInvitablesEtInvitees(
       HttpServletRequest req) {
+	List<EntrepriseDto> l0 = this.entrepriseUcc.getEntreprises();
     List<EntrepriseDto> l1 = this.entrepriseUcc.getEntreprisesInvitables();
-    List<EntrepriseDto> l2 = this.entrepriseUcc.getEntreprisesInvitees();
+    List<EntrepriseDto> l2 = this.entrepriseUcc.getEntreprisesAvecCommentaires();
+    List<EntrepriseDto> l3 = this.entrepriseUcc.getEntreprisesInvitees();
     Map<Integer, List<EntrepriseDto>> map = new HashMap<>();
-    map.put(0, l1);
-    map.put(1, l2);
+    map.put(0, l0);
+    map.put(1, l1);
+    map.put(2, l2);
+    map.put(3, l3);
     return map;
   }
 

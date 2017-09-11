@@ -730,14 +730,18 @@ var app;
 		
 		// Obliger de destroy et de rappeller la methode pour avoir les data
 		function initializeTable() {
-			var test;
+			var tabIdInvitables;
+			var tabIdCommentaires;
+			var tabIdInvitees;
 			table = $table.DataTable( {
 	            serverSide: false,
 	            ajax: {
 	                url: '/getEntreprisesInvitablesEtInvitees',
 	                type: "POST",
 	                dataSrc: function ( json ) {
-	                	test = json[1];
+	                	tabIdInvitables = json[1];
+	                	tabIdCommentaires = json[2];
+	                	tabIdInvitees = json[3];
 	                	return json[0];
 	                }
 	            },
@@ -751,15 +755,7 @@ var app;
 	            		orderable: false,
 	            		data: function ( row, type, val, meta ) {
 	            			return "<input id=checkIdEnt" + row.idEntreprise + " type='checkbox' name='tabInvitations[]' value=" + row.idEntreprise + " />";
-	            		},
-	            		render : function(data, type, objet) {
-	            			for (var i=0; i<test.length; i++) {
-	            				if (test[i].idEntreprise === objet.idEntreprise) {
-	            		            return "<input id=checkIdEnt" + objet.idEntreprise + " type='checkbox' name='tabInvitations[]' value=" + objet.idEntreprise + " checked disabled/>";
-	            				}
-	            			}
-	            			return data;
-	                    }
+	            		}
 	            	},
 	                {
 	            		data: "nomEntreprise"
@@ -794,8 +790,40 @@ var app;
 	                            return data.dayOfMonth + "/" + data.monthValue + "/" + data.year;
 	                        }
 	                    }
+	                },
+	                {
+	            		orderable: false,
+	            		data: function ( row, type, val, meta ) {
+	                        return "";
+	                    }
 	                }
+	                
 	            ],
+	            rowCallback: function(row, objet, index) {
+	         	    
+	            	// On regarde pour les entreprises non invitables
+        			$node = this.api().row(row).nodes().to$();
+
+            		for (var i=0; i<tabIdInvitables.length; i++ ) {
+	            		if (objet.idEntreprise === tabIdInvitables[i].idEntreprise) {
+	            			$node.addClass('success');
+	            		}
+	            	}
+	            	
+	            	// On regarde pour les commentaires
+	            	for (var i=0; i<tabIdCommentaires.length; i++ ) {
+	            		if (objet.idEntreprise === tabIdCommentaires[i].idEntreprise) {
+	            			$('td:eq(7)', row).html('<button type="button" class="voir-commentaire btn btn-danger btn-sm" "aria-labal="Center Align" data-toggle="modal" data-target="#modalCommentaire"><span class="fa fa-exclamation-circle " aria-hidden="true"></span> Commentaire(s)</button>' );
+	            		}
+	            	}
+	            	
+	            	// Table invitees
+	            	for (var i=0; i<tabIdInvitees.length; i++) {
+        				if (objet.idEntreprise === tabIdInvitees[i].idEntreprise) {
+        					$(row).find('#checkIdEnt' + objet.idEntreprise).attr('disabled', true).prop('checked', true);
+        				}
+        			}
+	            },
 	            order: [[1, 'asc']]
 	        });
 			//cocherInvitations(data);
