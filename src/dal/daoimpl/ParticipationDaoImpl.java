@@ -497,7 +497,7 @@ public class ParticipationDaoImpl implements ParticipationDao {
 public String setCommentaire(int version, int idParticipation, String commentaire) {
 	try {
 	      ResultSet rs = dalBackendServices.prepare("UPDATE pae.participations SET version = version + 1, commentaire = '"
-	          + commentaire + "' WHERE version = "+ version + " id_participation = " + idParticipation +" RETURNING commentaire;");
+	          + commentaire + "' WHERE version = " + version + " AND id_participation = " + idParticipation +" RETURNING commentaire;");
 
 	      if (!rs.next()) {
 	        return "";
