@@ -197,7 +197,7 @@ public class ParticipationDaoImpl implements ParticipationDao {
 
       while (rs.next()) {
         Participation participation = remplirParticipation(rs);
-        String nomEntreprise = rs.getString(7);
+        String nomEntreprise = rs.getString(8);
         map.put(participation, nomEntreprise);
       }
     } catch (Exception exception) {
@@ -300,9 +300,9 @@ public class ParticipationDaoImpl implements ParticipationDao {
 
       while (rs.next()) {
         JourneeEntreprise je = (JourneeEntreprise) this.jeFactory.creerJourneeEntreprise();
-        je.setIdJournee(rs.getInt(7));
-        je.setDateJournee(rs.getDate(8).toString());
-        je.setOuverte(rs.getBoolean(9));
+        je.setIdJournee(rs.getInt(8));
+        je.setDateJournee(rs.getDate(9).toString());
+        je.setOuverte(rs.getBoolean(10));
 
         Participation participation = remplirParticipation(rs);
 
@@ -484,6 +484,12 @@ public class ParticipationDaoImpl implements ParticipationDao {
     participation.setVersion(rs.getInt(4));
     participation.setIdJournee(rs.getInt(5));
     participation.setIdEntreprise(rs.getInt(6));
+    if (rs.getString(7) == null) {
+    	System.out.println("NULL DB");
+    	 participation.setCommentaire("");
+    } else {
+        participation.setCommentaire(rs.getString(7));
+    }
     return participation;
   }
 
@@ -491,13 +497,13 @@ public class ParticipationDaoImpl implements ParticipationDao {
 public String setCommentaire(int idParticipation, String commentaire) {
 	try {
 	      ResultSet rs = dalBackendServices.prepare("UPDATE pae.participations SET commentaire = '"
-	          + commentaire + "' WHERE p.id_participation = " + idParticipation +" RETURNING commentaire;");
+	          + commentaire + "' WHERE id_participation = " + idParticipation +" RETURNING commentaire;");
 
 	      if (!rs.next()) {
 	        return "";
 	      }
 	      
-	      return rs.getString(0);
+	      return rs.getString(1);
 	      
 	    } catch (Exception exception) {
 	      exception.printStackTrace();

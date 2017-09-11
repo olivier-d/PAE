@@ -51,6 +51,24 @@ var Utils = (function() {
 	                    reponse = false;
 	                }
 	            });
+	    
+	    
+	    $form
+	    .find('input[type=textarea]')
+	    .each(
+	            function(i, el) {
+	                if ($(el).val() == "" && ! tabInputVide.includes($(el).attr('name')) ) {
+	                    $(el)
+	                    .parent()
+	                    .wrap(
+	                            "<div class=\"form-group has-error has-feedback\"></div>");
+	                    $(el)
+	                    .after(
+	                            "<span class=\"glyphicon glyphicon-remove form-control-feedback\" aria-hidden=\"true\"></span>");
+	                    reponse = false;
+	                }
+	            });
+	    
 
 	    $form
 	    .find('input[type=password]')

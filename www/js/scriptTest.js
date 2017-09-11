@@ -450,7 +450,13 @@ var app;
 			// COMMENTAIRE
 			$table.on('click', 'tbody td .ajouter-commentaire', function() {
 				var objet = $(this).closest('tr').data('objet');
-				ModalCreerCommentaire.setIdParticipation(objet.key.idParticipation);
+				console.log("ajouter commentaire");
+				ModalCreerCommentaire.setInformation(objet.key.idParticipation, false);
+			});
+			
+			$table.on('click', 'tbody td .ajouter-commentaire', function() {
+				var objet = $(this).closest('tr').data('objet');
+				ModalCreerCommentaire.setInformation(objet.key.idParticipation, true);
 			});
 				
 			$buttonCreerJE.on('click', function() {
@@ -616,12 +622,12 @@ var app;
 	            	},
 	            	{
 	            		data: function ( row, type, val, meta ) { 
-		                    if (row.key.commentaire !== "") {
+		                    if (row.key.commentaire === "") {
 		                        return '<button type="button" class="ajouter-commentaire btn btn-outline btn-primary btn-sm" "aria-labal="Center Align" data-toggle="modal" data-target="#modalCreerCommentaire">' +
 		                            	'<span class="fa fa-plus-square fa-fw " aria-hidden="true"></span> Commentaire</button>';
 		                    }else {
 		                        return '<button type="button" class="modifier-commentaire btn btn-outline btn-primary btn-sm" "aria-labal="Center Align" data-toggle="modal" data-target="#modalModifierCommentaire">' +
-                            			'<span class="fa fa-plus-square fa-fw " aria-hidden="true"></span> Voir commentaire</button>';
+                            			'<span class="fa fa-edit " aria-hidden="true"></span> Commentaire</button>';
 		                    }
 	            		}
 	            	}
@@ -1476,10 +1482,11 @@ var app;
 		var idParticipation;
 		
 		var isDisplayed = false;
+		var isUpdate = false;
 		
 		var $modal = $('#modalCreerCommentaire');
 		var $form = $modal.find('form');
-		var $commentire = $modal.find('textarea');
+		var $commentaire = $modal.find('textarea');
 		
 		function bindAll() {
 			$form.on('submit', submitHandler);
@@ -1497,7 +1504,8 @@ var app;
 			e.preventDefault();
 			
 			Utils.supprimerMessageErreur($form);
-		    var json = 'idParticipation=' + idParticipation + '&commentaire=' + JSON.stringify(Utils.formToJson($form));
+		    var json = 'idParticipation=' + idParticipation + '&commentaire=' + $commentaire.val();
+		    console.log(json);
 		    var inputVide = [];
 		    if (Utils.testInputNonVide($form, inputVide)) {
 		        var retour = Ajax.ajax('/insererCommentaire', json, $form);
@@ -1508,9 +1516,10 @@ var app;
 		    }
 		}
 		
-		function setIdParticipation(newIdParticipation) {
+		function setInformation(newIdParticipation, newIsUpdate) {
 			idParticipation = newIdParticipation;
-			if (isDisplayed) {
+			isUpdate = newIsUpdate;
+			if (! isDisplayed) {
 				init();
 			}
 		}
@@ -1762,7 +1771,6 @@ var app;
 			
 			Utils.supprimerMessageErreur($form);
 		    var json = 'personne=' + JSON.stringify(Utils.formToJson($form));
-		    console.log(json);
 		    var inputVide = [];
 		    if (Utils.testInputNonVide($form, inputVide)) {
 		        var retour = Ajax.ajax('/insererPersonneDeContact', json, $form);

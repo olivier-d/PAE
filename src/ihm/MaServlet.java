@@ -803,7 +803,7 @@ public class MaServlet extends DefaultServlet {
 	  String commentaire = req.getParameter("commentaire");
 	  int idParticipation = Integer.parseInt(req.getParameter("idParticipation"));
 	  this.participationUcc.updateCommentaire(idParticipation, commentaire);
-	  return commentaire;
+	  return "Ajout commentaire réussie";
   }
 
 }
