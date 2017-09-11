@@ -88,7 +88,8 @@ CREATE TABLE pae.participations(
 	annulee BOOLEAN,
 	version INTEGER,
 	id_journee INTEGER REFERENCES pae.journees(id_journee),
-	id_entreprise INTEGER REFERENCES pae.entreprises(id_entreprise)
+	id_entreprise INTEGER REFERENCES pae.entreprises(id_entreprise),
+	commentaire text
 );
 
 
