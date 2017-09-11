@@ -33,6 +33,6 @@ public interface ParticipationUcc {
 
   Map<JourneeEntrepriseDto, Integer> nbrParticipationConfirmeeParJournees();
   
-  String updateCommentaire(int idParticipation, String commentaire);
+  String updateCommentaire(int version, int idParticipation, String commentaire);
 
 }

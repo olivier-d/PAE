@@ -801,8 +801,9 @@ public class MaServlet extends DefaultServlet {
   
   protected String insererCommentaire(HttpServletRequest req) {
 	  String commentaire = req.getParameter("commentaire");
+	  int version = Integer.parseInt(req.getParameter("version"));
 	  int idParticipation = Integer.parseInt(req.getParameter("idParticipation"));
-	  this.participationUcc.updateCommentaire(idParticipation, commentaire);
+	  this.participationUcc.updateCommentaire(version, idParticipation, commentaire);
 	  return "Ajout commentaire réussie";
   }
 

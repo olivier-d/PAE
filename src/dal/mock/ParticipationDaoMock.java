@@ -439,7 +439,7 @@ public class ParticipationDaoMock implements ParticipationDao {
   }
 
 @Override
-public String setCommentaire(int idParticipation, String commentaire) {
+public String setCommentaire(int version, int idParticipation, String commentaire) {
 	return commentaire;
 }
 

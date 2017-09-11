@@ -36,7 +36,7 @@ public interface ParticipationDao {
 
   Map<JourneeEntrepriseDto, Integer> nbrParticipationConfirmeeParJournees();
   
-  String setCommentaire(int idParticipation, String commentaire);
+  String setCommentaire(int version, int idParticipation, String commentaire);
 
 
 }

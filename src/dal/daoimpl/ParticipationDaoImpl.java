@@ -494,10 +494,10 @@ public class ParticipationDaoImpl implements ParticipationDao {
   }
 
 @Override
-public String setCommentaire(int idParticipation, String commentaire) {
+public String setCommentaire(int version, int idParticipation, String commentaire) {
 	try {
 	      ResultSet rs = dalBackendServices.prepare("UPDATE pae.participations SET commentaire = '"
-	          + commentaire + "' WHERE id_participation = " + idParticipation +" RETURNING commentaire;");
+	          + commentaire + "' WHERE version = "+ version + " id_participation = " + idParticipation +" RETURNING commentaire;");
 
 	      if (!rs.next()) {
 	        return "";
