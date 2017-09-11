@@ -10,6 +10,7 @@ public class PersonneContactImpl implements PersonneContact {
   private String email;
   private boolean estActif;
   private int version;
+  private char sexe;
 
   /**
    * Constructeur initialisant certain paramètre de la classe par default (personne active).
@@ -95,5 +96,15 @@ public class PersonneContactImpl implements PersonneContact {
   @Override
   public void setVersion(int version) {
     this.version = version;
+  }
+
+  @Override
+  public char getSexe() {
+	return sexe;
+  }
+
+  @Override
+  public void setSexe(char sexe) {
+	this.sexe = sexe;
   }
 }

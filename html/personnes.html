@@ -69,15 +69,35 @@
 										<div class="panel-heading"> Informations personnelles</div>
 										<div class="panel-body">
 											<div class="row">
-												<div class="col-lg-6">
+												<div class="col-lg-6 text-center">
 													<div class="form-group">
-														<label>Nom</label>
-														<input class="form-control" name="nom" type="text">
+														<div class="checkbox checkbox-primary">
+															<input id="sexeH" name="sexe" type="radio" value="H" checked />
+															<label for="sexeH">Homme</label>
+														</div>
+													</div>
+												</div>
+												<div class="col-lg-6 text-center">
+													<div class="form-group">
+														<div class="checkbox checkbox-primary">
+															<input id="sexeF" name="sexe" type="radio" value="F" />
+															<label for="sexeF">Femme</label>
+															
+														</div>
+												    </div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-lg-6">
+													<div class="form-group input-group">
+														<span class="input-group-addon"><i class="fa fa-user"></i></span>
+														<input class="form-control" name="nom" type="text" placeholder="Nom">
 													</div>
 												</div>
 												<div class="col-lg-6">
-													<div class="form-group">
-														<label>Prénom</label> <input class="form-control" name="prenom" type="text">
+													<div class="form-group input-group">
+														<span class="input-group-addon"><i class="fa fa-user"></i></span>
+														<input class="form-control" name="prenom" type="text" placeholder="Prénom">
 													</div>
 												</div>
 											</div>

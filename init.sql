@@ -61,7 +61,8 @@ CREATE TABLE pae.personnes_contact(
 	email VARCHAR(255),
 	actif BOOLEAN,
 	id_entreprise INTEGER REFERENCES pae.entreprises(id_entreprise),
-	version INTEGER
+	version INTEGER,
+	sexe VARCHAR(1)
 );
 
 /**

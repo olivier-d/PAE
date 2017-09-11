@@ -33,6 +33,10 @@ public interface PersonneContactDto {
   public int getVersion();
 
   public void setVersion(int version);
+  
+  public char getSexe();
+  
+  public void setSexe(char sexe);
 
 
 }

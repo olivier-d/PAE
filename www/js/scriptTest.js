@@ -100,7 +100,6 @@ var app;
 		    if (Utils.testInputNonVide($form, inputVide)) {
 	            var utilisateur = Ajax.ajax('/connexion', json, $form);
 	            if (! jQuery.isEmptyObject(utilisateur)) {
-	            	console.log(utilisateur);
 	            	app.setUser(utilisateur);
 	            	destroy();
 	            	Nav.init();
@@ -948,7 +947,7 @@ var app;
 		
 		var $div = $('#section-personnesDeContact');
 		var $table = $div.find('#lesPersonnesContact');
-				
+						
 		function bindAll() {
 			$table.on('click', '.infoEntreprise', function() {
 				ModalInformationEntreprise.setIdEntreprise($(this).closest('tr').data('objet').idEntreprise);
@@ -994,6 +993,18 @@ var app;
 		                $(row).attr('data-objet', JSON.stringify(objet.key));
 		            },
 		            columns: [
+		            	{
+		            		data: "key.sexe",
+		            		render : function(data, type, objet) {
+		            			if (data === 'H') {
+		            				return '<i class="fa fa-male"></i>';
+		            			} else {
+		            				return '<i class="fa fa-female"></i>';
+		            			}
+		            		},
+		            		title: '',
+		            		orderable: false
+		            	},
 		            	{
 		            		data: "key.nom",
 		            		title: 'Nom'
@@ -1059,7 +1070,8 @@ var app;
 		                	title: 'Editer',
 		                	orderable: false 
 		                }
-		            ]
+		            ],
+		            order: [[1, 'asc']]
 		        });
             } else {
             	table = $table.DataTable( {
@@ -1075,6 +1087,19 @@ var app;
 		                $(row).attr('data-objet', JSON.stringify(objet.key));
 		            },
 		            columns: [
+		            	{
+		            		data: "key.sexe",
+		            		render : function(data, type, objet) {
+		            			console.log(data);
+		            			if (data === 'H') {
+		            				return '<i class="fa fa-male"></i>';
+		            			} else {
+		            				return '<i class="fa fa-female"></i>';
+		            			}
+		            		},
+		            		title: '',
+		            		orderable: false
+		            	},
 		            	{
 		            		data: "key.nom",
 		            		title: 'Nom'
@@ -1129,7 +1154,8 @@ var app;
 		                    },
 		                    title: 'Désactiver'
 		                }  
-		            ]
+		            ],
+		            order: [[1, 'asc']]
 		        });
             }
 		}
@@ -1503,11 +1529,23 @@ var app;
 	            language: dataTablesLanguage,
 	            dom: "rt",
 	            columns: [
+	            	{
+	            		data: "sexe",
+	            		render : function(data, type, objet) {
+	            			if (data === 'H') {
+	            				return '<i class="fa fa-male"></i>';
+	            			} else {
+	            				return '<i class="fa fa-female"></i>';
+	            			}
+	            		},
+	            		orderable: false
+	            	},
 	            	{"data": "nom"},
 	                {"data": "prenom"},
 	                {"data": "email"},
 	                {"data": "telephone"}
-	            ]
+	            ],
+	            order: [[1, 'asc']]
 	        });
 	        
 		}
@@ -1647,9 +1685,10 @@ var app;
 			
 			Utils.supprimerMessageErreur($form);
 		    var json = 'personne=' + JSON.stringify(Utils.formToJson($form));
+		    console.log(json);
 		    var inputVide = [];
 		    if (Utils.testInputNonVide($form, inputVide)) {
-		        var retour = Ajax.ajax('/insererEntreprise', json, $form);
+		        var retour = Ajax.ajax('/insererPersonneDeContact', json, $form);
 		        if (retour.success) {
 		            Personne.updateTable();
 		        	destroy();

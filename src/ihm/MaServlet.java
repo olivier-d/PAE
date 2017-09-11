@@ -682,8 +682,7 @@ public class MaServlet extends DefaultServlet {
 
   protected List<PersonneContactDto> getPersonnesContactDeLEntreprise(HttpServletRequest req) {
     List<PersonneContactDto> listePersonneContact = personneContactUcc
-        .getPersonnesContactDeLEntreprise(Integer.parseInt(req.getParameter("idEntreprise")))
-        .stream().sorted(comparing(PersonneContactDto::getNom)).collect(toList());
+        .getPersonnesContactDeLEntreprise(Integer.parseInt(req.getParameter("idEntreprise")));
     return listePersonneContact;
   }
 

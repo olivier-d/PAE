@@ -40,7 +40,7 @@ public class PersonneContactDaoImpl implements PersonneContactDao {
       ResultSet rs = dalBackendServices
           .prepare("INSERT INTO pae.personnes_contact VALUES (DEFAULT, '" + pdcDto.getNom() + "','"
               + pdcDto.getPrenom() + "','" + pdcDto.getTelephone() + "','" + pdcDto.getEmail()
-              + "','" + pdcDto.getActif() + "','" + pdcDto.getIdEntreprise() + "',0) RETURNING *;");
+              + "','" + pdcDto.getActif() + "','" + pdcDto.getIdEntreprise() + "',0, '" + pdcDto.getSexe() + "') RETURNING *;");
 
       rs.next();
       PersonneContact pdc = (PersonneContact) remplirPersonne(rs);
@@ -155,9 +155,10 @@ public class PersonneContactDaoImpl implements PersonneContactDao {
               + "WHERE p.id_entreprise = e.id_entreprise;");
       while (rs.next()) {
         PersonneContact pdc = (PersonneContact) remplirPersonne(rs);
-        mapPers.put(pdc, rs.getString(9));
+        mapPers.put(pdc, rs.getString(10));
       }
     } catch (Exception exception) {
+    	System.out.println(exception.getMessage());
       throw new FatalException();
     }
     return mapPers;
@@ -181,7 +182,7 @@ public class PersonneContactDaoImpl implements PersonneContactDao {
       
       while (rs.next()) {
         PersonneContact pers = (PersonneContact) remplirPersonne(rs);
-        map.put(pers, rs.getString(9));
+        map.put(pers, rs.getString(10));
       }
       return map;
     } catch(Exception e) {
@@ -252,6 +253,7 @@ public class PersonneContactDaoImpl implements PersonneContactDao {
     pdc.setActif(rs.getBoolean(6));
     pdc.setIdEntreprise(rs.getInt(7));
     pdc.setVersion(rs.getInt(8));
+    pdc.setSexe(rs.getString(9).charAt(0));
     return pdc;
   }
 }

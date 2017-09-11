@@ -119,6 +119,7 @@ public class PersonneContactUccImpl implements PersonneContactUcc {
       dalServices.commitTransaction();
       return mapPers;
     } catch (FatalException exception) {
+    	exception.printStackTrace();
       dalServices.rollbackTransaction();
       throw new FatalException("Chargement pers. de contact et nom entreprise impossible");
     }
