@@ -692,7 +692,7 @@ var app;
 		
 		var $buttonSaveAndCSV = $div.find('#genererCSV');
 		
-		var $checkboxAll = $('#allCheckbox');
+		var $checkboxAll = $div.find('#allCheckbox');
 		
 				
 		function bindAll() {						
@@ -1405,8 +1405,21 @@ var app;
 		var $form = $modal.find('form');
 		var $table = $modal.find('table');
 		
+		var $checkboxAll2 = $modal.find('#allCheckbox2');
+		
 		function bindAll() {
 			$form.on('submit', submitHandler);
+			
+			$checkboxAll2.on('change',function() {
+				if ($(this).is(":checked")) {
+					$('input[name="tabPersInvit[]"]').not('[disabled]').prop('checked', true);
+				} else {
+					$('input[name="tabPersInvit[]"]').not('[disabled]').prop('checked', false);
+				}
+			});
+			
+			
+			$modal.on('hidden.bs.modal', destroy);
 		}
 		
 		function submitHandler(e) {
@@ -1422,6 +1435,7 @@ var app;
 		        }
 		    }
 		    var json = 'tabIdPersonneContact=' + JSON.stringify(jsonTab) + "&idParticipation=" + idParticipation;
+		    console.log(json);
 		    var listeIdEntreprise = Ajax.ajax('/insererPersonneContactParticipation', json);
 		    if (listeIdEntreprise.success) {
 		        
@@ -1451,16 +1465,10 @@ var app;
 	            	{	
 	            		orderable: false,
 	            		data: function ( row, type, val, meta ) { 
-	            			return "<input id=checkIdPers" +row.idPersonneContact+ " type='checkbox' name='tabPersInvit[]' value=" + row.idPersonneContact + " />";
-	            		},
-		            	render : function(data, type, objet) {
-	            			for (var i=0; i<tabPersInvitees.length; i++) {
-	            				if (tabPersInvitees[i].idEntreprise === objet.idEntreprise) {
-	            		            return "<input id=checkIdPers" + objet.idPersonneContact + " type='checkbox' name='tabPersInvit[]' value=" + objet.idPersonneContact + " checked disabled/>";
-	            				}
-	            			}
-	            			return data;
-		            	}
+	            			//return "<input id=checkIdPers" +row.idPersonneContact+ " type='checkbox' name='tabPersInvit[]' value=" + row.idPersonneContact + " />";
+	            			return '<div class="checkbox checkbox-primary"><input id=checkIdPers' + row.idPersonneContact + ' type="checkbox" name="tabPersInvit[]" value=' + row.idPersonneContact + ' class="styled styled-primary"><label></label></div>';
+
+	            		}
 	            	},
 	            	{
 	            		data: "nom"
@@ -1490,6 +1498,14 @@ var app;
 	                    }
 	                }
 	            ],
+	            rowCallback: function(row, objet, index) {
+	            	// Table invitees
+	            	for (var i=0; i<tabPersInvitees.length; i++) {
+        				if (objet.idPersonneContact === tabPersInvitees[i].idPersonneContact) {
+        					$(row).find('#checkIdPers' + objet.idPersonneContact).attr('disabled', true).prop('checked', true);
+        				}
+        			}
+	            },
 	            order: [[1, 'asc']]
 	        });  
 		}
@@ -1517,6 +1533,7 @@ var app;
 		function destroy() {
             $(".modal.in").modal("hide");
             Utils.cleanForm($form);
+			$checkboxAll2.prop('checked', false);
 		}
 		
 		return {
