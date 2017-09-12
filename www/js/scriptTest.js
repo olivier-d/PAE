@@ -431,11 +431,12 @@ var app;
 				modifierEtatParticipation($tr.data('objet').key.idParticipation, 'REFUSEE', $tr.data('objet').key.version);
 			});
 			
-			// TODO 
-			$table.on('change', 'tbody td .etat-participation', function() {
+			/*
+			$table.on('changed.bs.select', '.etat-participation', function() {
 				$tr = $(this).closest('tr');
 				modifierEtatParticipation($tr.data('objet').key.idParticipation, $(this).find(':selected').val(), $tr.data('objet').key.version);
 			});
+			*/
 				
 			$table.on('click', 'tbody td .voir-participants', function() {
 				var objet = $(this).closest('tr').data('objet');
@@ -467,6 +468,7 @@ var app;
 		function unbindAll() {
 			$selectJE.off('change');
 			$table.off('click');
+			$table.off('change');
 			$buttonCreerJE.off('click');
 			$buttonCloturerJE.off('click');
 		}
@@ -570,13 +572,7 @@ var app;
 		                        		'<button type="button" class="refuser-participation btn btn-danger btn-sm" aria-labal="Center Align" style="width:90px;">' +
 		                        		'<span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Refuser</button>';
 		                    } else if (row.key.etat !== "REFUSEE") {
-		                        var select = "<select class='etat-participation selectpicker show-tick' data-width='auto'>"+ 
-		                            "<option value='CONFIRMEE'>Confirmée</option>" +
-		                            "<option value='FACTUREE'>Facturée</option>" +
-		                            "<option value='PAYEE'>Payée</option>" +
-		                            "<option value='REFUSEE'>Refusée</option>" +
-		                            "</select>";
-		                        return select;
+		                        return '<select class="etat-participation selectpicker show-tick" data-width="auto"><option value="CONFIRMEE">Confirmée</option><option value="FACTUREE">Facturée</option><option value="PAYEE">Payée</option><option value="REFUSEE">Refusée</option></select>';
 		                    } else {
 		                        return "<fieldset disabled>" +
 		                        "<a type=\"button\" class=\"btn btn-outline btn-danger btn-sm\">" +
@@ -640,6 +636,11 @@ var app;
 	                    $(row).find('select').attr('disabled', true);
 	                    $(row).find('td button[data-target="#modalAfficherParticipants"]').attr('disabled', false);
 	                }
+	                var $select = $(row).find('select');
+	                $select.on('change', function() {
+	    				$tr = $(this).closest('tr');
+	    				modifierEtatParticipation($tr.data('objet').key.idParticipation, $(this).find(':selected').val(), $tr.data('objet').key.version);
+	    			});
 	            }
 	        });
 		}
