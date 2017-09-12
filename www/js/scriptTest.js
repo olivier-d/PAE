@@ -505,6 +505,7 @@ var app;
 		
 		function refreshSelectJE() {
 			loadSelectJE();
+			reloadTable();
 		}
 		
 		function loadSelectJE() {
@@ -645,10 +646,10 @@ var app;
 	        });
 		}
 		
-		function reloadTable(e) {
-            e.preventDefault();
+		function reloadTable() {
             table.destroy();
             initializeTable();
+            console.log("reload fait");
         }
 		
 		// Ne sera normalement jamais utilise...
@@ -771,7 +772,8 @@ var app;
 	            	{
 	            		orderable: false,
 	            		data: function ( row, type, val, meta ) {
-	            			return "<input id=checkIdEnt" + row.idEntreprise + " type='checkbox' name='tabInvitations[]' value=" + row.idEntreprise + " />";
+	            			return '<div class="checkbox checkbox-primary"><input id=checkIdEnt' + row.idEntreprise + ' type="checkbox" name="tabInvitations[]" value=' + row.idEntreprise + ' class="styled styled-primary"><label></label></div>';
+	            			//return "<input id=checkIdEnt" + row.idEntreprise + " type='checkbox' name='tabInvitations[]' value=" + row.idEntreprise + " />";
 	            		}
 	            	},
 	                {
