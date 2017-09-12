@@ -691,13 +691,25 @@ var app;
 		
 		var $buttonSaveAndCSV = $div.find('#genererCSV');
 		
+		var $checkboxAll = $('#allCheckbox');
+		
 				
 		function bindAll() {						
 			$buttonSaveAndCSV.on('click', sauvegarderInvitations);
+			
+			$checkboxAll.on('change',function() {
+				if ($(this).is(":checked")) {
+					$('input[name="tabInvitations[]"]').not('[disabled]').prop('checked', true);
+				} else {
+					$('input[name="tabInvitations[]"]').not('[disabled]').prop('checked', false);
+				}
+			})
 		}
 		
 		function unbindAll() {
 			$buttonSaveAndCSV.off('click');
+			$checkboxAll.off('change');
+			$checkboxAll.prop('checked', false);
 		}
 		
 		function sauvegarderInvitations() {
@@ -727,6 +739,10 @@ var app;
 		        reloadTable();
 		    }
 		    */
+		    if (! jQuery.isEmptyObject(listeIdEntreprise)) {
+			    updateTable();
+			    Utils.notifySucces('Sauvegarde réussie');
+		    }
 		}
 		
 		// Obliger de destroy et de rappeller la methode pour avoir les data
