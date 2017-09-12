@@ -568,7 +568,7 @@ var app;
 	                {
 	            		data: function ( row, type, val, meta ) {
 		                    if (row.key.etat === "INVITEE") {
-		                        return '<button type="button" class="confirmer-participation btn btn-success btn-sm" aria-labal="Center Align"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Confirmer</button>' +
+		                        return '<button type="button" class="confirmer-participation btn btn-success btn-sm" aria-labal="Center Align"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Confirmer</button> ' +
 		                        		'<button type="button" class="refuser-participation btn btn-danger btn-sm" aria-labal="Center Align" style="width:90px;">' +
 		                        		'<span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Refuser</button>';
 		                    } else if (row.key.etat !== "REFUSEE") {
@@ -619,10 +619,10 @@ var app;
 	            		data: function ( row, type, val, meta ) { 
 		                    if (row.key.commentaire === "") {
 		                        return '<button type="button" class="ajouter-commentaire btn btn-outline btn-primary btn-sm" "aria-labal="Center Align" data-toggle="modal" data-target="#modalCommentaire">' +
-		                            	'<span class="fa fa-plus-square fa-fw " aria-hidden="true"></span> Commentaire</button>';
+		                            	'<span class="fa fa-plus-square fa-fw " aria-hidden="true"></span> Ajouter</button>';
 		                    }else {
-		                        return '<button type="button" class="modifier-commentaire btn btn-outline btn-primary btn-sm" "aria-labal="Center Align" data-toggle="modal" data-target="#modalCommentaire">' +
-                            			'<span class="fa fa-edit " aria-hidden="true"></span> Commentaire</button>';
+		                        return '<button type="button" class="modifier-commentaire btn btn-primary btn-sm" "aria-labal="Center Align" data-toggle="modal" data-target="#modalCommentaire">' +
+                            			'<span class="fa fa-edit " aria-hidden="true"></span> Afficher</button>';
 		                    }
 	            		}
 	            	}
@@ -1536,7 +1536,7 @@ var app;
 		function bindAll() {
 			$form.on('submit', submitHandler);
 			$modal.on('shown.bs.modal', function () {
-				$form.find('input:first').focus();
+				$form.find('textarea:first').focus();
 			});
 			$modal.on('hidden.bs.modal', destroy);
 		}
