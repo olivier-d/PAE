@@ -516,7 +516,7 @@ public class ParticipationDaoImpl implements ParticipationDao {
 	public List<String> getCommentairesParEntreprise(int idEntreprise) {
 		List<String> listeCommentaires  = new ArrayList<>();
 		try {
-		      ResultSet rs = dalBackendServices.prepare("SELECT commentaire FROM pae.participations WHERE id_entreprise = "+idEntreprise);
+		      ResultSet rs = dalBackendServices.prepare("SELECT commentaire FROM pae.participations WHERE commentaire IS NOT NULL AND id_entreprise = "+idEntreprise);
 	
 		      while (rs.next()) {
 		    	  listeCommentaires.add(rs.getString(1));
