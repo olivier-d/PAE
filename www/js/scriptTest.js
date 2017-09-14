@@ -191,7 +191,7 @@ var app;
 	
 	var Nav = (function() {
 		
-		var $navDashboard = $('#navBarDashboard');
+		//var $navDashboard = $('#navBarDashboard');
 		var $navJournee = $('#navBarJournees');
 		var $navJEHistorique = $('#navBarHistorique');
 		// Responsable
@@ -240,9 +240,6 @@ var app;
 			var $section = Utils.getSectionAffichee();
 			if ($section !== undefined) {
 				switch ($section.attr('id')) {
-					case 'section-dashboard':
-						Dashboard.destroy();
-						break;
 					case 'section-journees':
 						Journee.destroy();
 						break;
@@ -261,10 +258,7 @@ var app;
 		}
 		
 		function bindAll() {
-			$navDashboard.on('click', function() {
-				objetDestroy();
-				Dashboard.init();
-			});
+			
 			$navJournee.on('click', function() {
 				objetDestroy();
 				Journee.init();
@@ -300,7 +294,6 @@ var app;
 		}
 		
 		function unbindAll() {
-			$navDashboard.off('click');
 			$navJournee.off('click');
 			$navJEHistorique.off('click');
 			$navJEGestion.off('click');
@@ -320,7 +313,7 @@ var app;
 				navResponsable();
 			}
 			$wrapper.show();
-			Dashboard.init();
+			Journee.init();
 		}
 		
 		function destroy() {
@@ -336,74 +329,6 @@ var app;
 			destroy: destroy
 		}
 		
-	})();
-	
-	
-	var Dashboard = (function() {
-		
-		var $div = $('#section-dashboard');
-		
-		function loadChart(){
-	        var option = {
-	            responsive: true,
-	        };
-	        var journees = Ajax.ajax('/nbrParticipationConfirmeeParJournees');
-	
-	        if(journees.length > 0){
-	            var labeldata = new Array();
-	            var nbEntreprises = new Array();
-	            for(var i = 0; i < journees.length; i++){
-	                labeldata.push(journees[i].key.dateJournee);
-	                nbEntreprises.push(journees[i].value);
-	            }
-	            var data2 = {
-	                labels: labeldata,
-	                datasets: [
-	                {
-	                        label: "Les entreprises",
-	                        fillColor: "rgba(220,220,220,0.5)",
-	                        strokeColor: "rgba(220,220,220,0.8)",
-	                        highlightFill: "rgba(220,220,220,0.75)",
-	                        highlightStroke: "rgba(220,220,220,1)",
-	                        data: nbEntreprises
-	                    }
-	                ]
-	            }
-	        }
-	        else{
-	            var data2 = {
-	                labels: ["12-09-2015", "23-04-2016", "01-01-2017"],
-	                datasets: [
-	                    {
-	                        label: "Exemple",
-	                        fillColor: "rgba(220,220,220,0.5)",
-	                        strokeColor: "rgba(220,220,220,0.8)",
-	                        highlightFill: "rgba(220,220,220,0.75)",
-	                        highlightStroke: "rgba(220,220,220,1)",
-	                        data: [4, 10, 15]
-	                    },
-	                ]
-	            }
-	        }   
-	        // Get the context of the canvas element we want to select
-	        var ctx = document.getElementById("myChart").getContext('2d');
-	        var myBarChart = new Chart(ctx).Bar(data2, option);     
-		}
-		
-		
-		function init() {
-			loadChart();
-			$div.show();
-		}
-		
-		function destroy() {
-			$div.hide();
-		}
-		
-		return {
-			init: init,
-			destroy: destroy
-		}
 	})();
 	
 	var Journee = (function() {
@@ -422,21 +347,16 @@ var app;
 			$table.on('click', 'tbody td .annuler-participation', function() {
 				annulerParticipation($(this).closest('tr').data('objet').key.idParticipation);
 			});
+			
 			$table.on('click', 'tbody td .confirmer-participation', function() {
 				$tr = $(this).closest('tr');
 				modifierEtatParticipation($tr.data('objet').key.idParticipation, 'CONFIRMEE', $tr.data('objet').key.version);
 			});
+			
 			$table.on('click', 'tbody td .refuser-participation', function() {
 				$tr = $(this).closest('tr');
 				modifierEtatParticipation($tr.data('objet').key.idParticipation, 'REFUSEE', $tr.data('objet').key.version);
 			});
-			
-			/*
-			$table.on('changed.bs.select', '.etat-participation', function() {
-				$tr = $(this).closest('tr');
-				modifierEtatParticipation($tr.data('objet').key.idParticipation, $(this).find(':selected').val(), $tr.data('objet').key.version);
-			});
-			*/
 				
 			$table.on('click', 'tbody td .voir-participants', function() {
 				var objet = $(this).closest('tr').data('objet');
@@ -462,6 +382,7 @@ var app;
 			$buttonCreerJE.on('click', function() {
 				ModalCreerJE.init();
 			});
+			
 			$buttonCloturerJE.on('click', cloturerJE);
 		}
 		
@@ -649,7 +570,6 @@ var app;
 		function reloadTable() {
             table.destroy();
             initializeTable();
-            console.log("reload fait");
         }
 		
 		// Ne sera normalement jamais utilise...
@@ -704,6 +624,11 @@ var app;
 				} else {
 					$('input[name="tabInvitations[]"]').not('[disabled]').prop('checked', false);
 				}
+			});
+			
+			$table.on('click', 'tbody td .voir-commentaire', function() {
+				var $tr = $(this).closest('tr');
+				ModalListeCommentaires.setIdEntreprise($tr.data('objet').idEntreprise);
 			})
 		}
 		
@@ -832,7 +757,7 @@ var app;
 	            	// On regarde pour les commentaires
 	            	for (var i=0; i<tabIdCommentaires.length; i++ ) {
 	            		if (objet.idEntreprise === tabIdCommentaires[i].idEntreprise) {
-	            			$('td:eq(7)', row).html('<button type="button" class="voir-commentaire btn btn-danger btn-sm" "aria-labal="Center Align" data-toggle="modal" data-target="#modalCommentaire"><span class="fa fa-exclamation-circle " aria-hidden="true"></span> Commentaire(s)</button>' );
+	            			$('td:eq(7)', row).html('<button type="button" class="voir-commentaire btn btn-danger btn-sm" "aria-labal="Center Align" data-toggle="modal" data-target="#modalListeCommentaires"><span class="fa fa-exclamation-circle " aria-hidden="true"></span> Commentaire(s)</button>' );
 	            		}
 	            	}
 	            	
@@ -845,14 +770,6 @@ var app;
 	            },
 	            order: [[1, 'asc']]
 	        });
-			//cocherInvitations(data);
-		}
-		
-		function cocherInvitations(data) {
-			for (var i = 0; i < data.length; i++) {
-	            var idEnt = data[i].idEntreprise;
-	            $('#checkIdEnt'+idEnt).prop('checked', true).attr('disabled', 'true');
-	        }
 		}
 		
 		function reloadTable() {
@@ -860,7 +777,6 @@ var app;
             initializeTable();
         }
 		
-		// Ne sera normalement jamais utilise...
 	    function updateTable() {
             table.ajax.reload();
         }
@@ -1995,6 +1911,41 @@ var app;
 		
 		return {
 			setPersonne: setPersonne
+		}
+	})();
+	
+	var ModalListeCommentaires = (function() {
+		
+		var idEntreprise;
+		
+		var $modal = $('#modalListeCommentaires');
+		var $body = $modal.find('div.modal-body');
+		
+		function setIdEntreprise(newIdEntreprise) {
+			console.log('ouverte modal');
+			idEntreprise = newIdEntreprise;
+			afficherInfo();
+		}
+		
+		function afficherInfo() {
+			$body.empty();
+			
+			var json = "idEntreprise=" + idEntreprise;
+		    var listeCommentaires = Ajax.ajax('/getCommentairesParEntreprise', json);
+		    
+		    var $ol = '<ol>';
+		    
+	    	for (var i=1; i <= listeCommentaires.length; i++) {
+				var $li = '<li>' + listeCommentaires[i-1] + '</li>';
+				
+				$ol += $li;
+		    }
+	    	$ol += '</ol>';
+		    $body.append($ol);
+		}
+		
+		return {
+			setIdEntreprise: setIdEntreprise
 		}
 	})();
 	
