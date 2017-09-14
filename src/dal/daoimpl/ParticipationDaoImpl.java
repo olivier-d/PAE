@@ -307,7 +307,7 @@ public class ParticipationDaoImpl implements ParticipationDao {
         Participation participation = remplirParticipation(rs);
 
         Map<JourneeEntrepriseDto, Integer> mapJe = new HashMap<>();
-        mapJe.put(je, rs.getInt(10));
+        mapJe.put(je, rs.getInt(11));
         map.put(participation, mapJe);
       }
       return map;
