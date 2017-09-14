@@ -1921,27 +1921,24 @@ var app;
 		var $modal = $('#modalListeCommentaires');
 		var $body = $modal.find('div.modal-body');
 		
+		var $div = $modal.find('#infoListeCommentaires');
+		
 		function setIdEntreprise(newIdEntreprise) {
-			console.log('ouverte modal');
 			idEntreprise = newIdEntreprise;
 			afficherInfo();
 		}
 		
 		function afficherInfo() {
-			$body.empty();
+			$div.empty();
 			
 			var json = "idEntreprise=" + idEntreprise;
 		    var listeCommentaires = Ajax.ajax('/getCommentairesParEntreprise', json);
-		    
-		    var $ol = '<ol>';
-		    
-	    	for (var i=1; i <= listeCommentaires.length; i++) {
-				var $li = '<li>' + listeCommentaires[i-1] + '</li>';
+	    	
+		    for (var i=1; i <= listeCommentaires.length; i++) {
+				var $texte = '<blockquote>' + listeCommentaires[i-1] + '</blockquote>';
 				
-				$ol += $li;
+				$div.append($texte);
 		    }
-	    	$ol += '</ol>';
-		    $body.append($ol);
 		}
 		
 		return {
