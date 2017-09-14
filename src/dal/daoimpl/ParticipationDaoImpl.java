@@ -493,23 +493,42 @@ public class ParticipationDaoImpl implements ParticipationDao {
     return participation;
   }
 
-@Override
-public String setCommentaire(int version, int idParticipation, String commentaire) {
-	try {
-	      ResultSet rs = dalBackendServices.prepare("UPDATE pae.participations SET version = version + 1, commentaire = '"
-	          + commentaire + "' WHERE version = " + version + " AND id_participation = " + idParticipation +" RETURNING commentaire;");
-
-	      if (!rs.next()) {
-	        return "";
-	      }
-	      
-	      return rs.getString(1);
-	      
-	    } catch (Exception exception) {
-	      exception.printStackTrace();
-	      System.out.println(exception.getMessage());
-	      throw new FatalException();
-	    }
-}
+	@Override
+	public String setCommentaire(int version, int idParticipation, String commentaire) {
+		try {
+		      ResultSet rs = dalBackendServices.prepare("UPDATE pae.participations SET version = version + 1, commentaire = '"
+		          + commentaire + "' WHERE version = " + version + " AND id_participation = " + idParticipation +" RETURNING commentaire;");
+	
+		      if (!rs.next()) {
+		        return "";
+		      }
+		      
+		      return rs.getString(1);
+		      
+		    } catch (Exception exception) {
+		      exception.printStackTrace();
+		      System.out.println(exception.getMessage());
+		      throw new FatalException();
+		    }
+	}
+	
+	@Override
+	public List<String> getCommentairesParEntreprise(int idEntreprise) {
+		List<String> listeCommentaires  = new ArrayList<>();
+		try {
+		      ResultSet rs = dalBackendServices.prepare("SELECT commentaire FROM pae.participations WHERE id_entreprise = "+idEntreprise);
+	
+		      while (rs.next()) {
+		    	  listeCommentaires.add(rs.getString(1));
+		      }
+		      
+		      return listeCommentaires;
+		      
+		} catch (Exception exception) {
+		      exception.printStackTrace();
+		      System.out.println(exception.getMessage());
+		      throw new FatalException();
+		}
+	}
 
 }

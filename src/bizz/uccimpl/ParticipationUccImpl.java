@@ -212,22 +212,36 @@ public class ParticipationUccImpl implements ParticipationUcc {
     }
   }
 
-@Override
-public String updateCommentaire(int version, int idParticipation, String commentaire) {
-	try {
-	      dalServices.startTransaction();
-	      commentaire = 
-	          this.participationDao.setCommentaire(version, idParticipation, commentaire);
-	      if (commentaire.equals("")) {
-	        dalServices.rollbackTransaction();
-	        throw new BizzException(
-	            "{\"fail\":\"Le commentaire n'a pas pu être rajouté. Veuillez rafraichir la page.\"}");
-	      }
-	      this.dalServices.commitTransaction();
-	      return commentaire;
-	    } catch (FatalException exception) {
-	      dalServices.rollbackTransaction();
-	      throw new FatalException("Insertion commentaire impossible!");
-	    }
-}
+	@Override
+	public String updateCommentaire(int version, int idParticipation, String commentaire) {
+		try {
+		      dalServices.startTransaction();
+		      commentaire = 
+		          this.participationDao.setCommentaire(version, idParticipation, commentaire);
+		      if (commentaire.equals("")) {
+		        dalServices.rollbackTransaction();
+		        throw new BizzException(
+		            "{\"fail\":\"Le commentaire n'a pas pu être rajouté. Veuillez rafraichir la page.\"}");
+		      }
+		      this.dalServices.commitTransaction();
+		      return commentaire;
+		    } catch (FatalException exception) {
+		      dalServices.rollbackTransaction();
+		      throw new FatalException("Insertion commentaire impossible!");
+		    }
+	}
+	
+	@Override
+	public List<String> getCommentairesParEntreprise(int idEntreprise) {
+		try {
+		      dalServices.startTransaction();
+		      List<String> listeCommentaires =
+		          this.participationDao.getCommentairesParEntreprise(idEntreprise);
+		      dalServices.commitTransaction();
+		      return listeCommentaires;
+		    } catch (FatalException exception) {
+		      dalServices.rollbackTransaction();
+		      throw new FatalException("Chargement personnes invitées impossible");
+		    }
+	}
 }

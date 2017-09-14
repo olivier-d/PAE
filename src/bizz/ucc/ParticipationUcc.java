@@ -34,5 +34,7 @@ public interface ParticipationUcc {
   Map<JourneeEntrepriseDto, Integer> nbrParticipationConfirmeeParJournees();
   
   String updateCommentaire(int version, int idParticipation, String commentaire);
+  
+  List<String> getCommentairesParEntreprise(int idEntreprise);
 
 }

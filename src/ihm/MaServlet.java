@@ -344,6 +344,9 @@ public class MaServlet extends DefaultServlet {
           case "getEntreprisesInvitablesEtInvitees":
             reponse = getEntreprisesInvitablesEtInvitees(req);
             break;
+          case "getCommentairesParEntreprise":
+        	reponse = getCommentairesParEntreprise(req);
+        	break;
         }
       }
 
@@ -811,6 +814,12 @@ public class MaServlet extends DefaultServlet {
 	  int idParticipation = Integer.parseInt(req.getParameter("idParticipation"));
 	  this.participationUcc.updateCommentaire(version, idParticipation, commentaire);
 	  return "Ajout commentaire réussie";
+  }
+  
+  protected List<String> getCommentairesParEntreprise(HttpServletRequest req) {
+	  int idEntreprise = Integer.parseInt(req.getParameter("idEntreprise"));
+	  List<String> listeDeCommentaires = this.participationUcc.getCommentairesParEntreprise(idEntreprise);
+	  return listeDeCommentaires;
   }
 
 }
