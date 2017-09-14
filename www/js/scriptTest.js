@@ -649,26 +649,50 @@ var app;
 		        }
 		    }
 		    var json = 'tabIdEntreprise=' + JSON.stringify(jsonTab);
-		    var listeIdEntreprise = Ajax.ajax('/insererParticipation', json);
+		    //var listeIdEntreprise = Ajax.ajax('/insererParticipation', json);
 		    
-		    // TODO - remplacer par l'id de la je ouverte + Refaire les csv
-		    /*
-		    var journees = requeteAjax('/getJE');
-		    var max = -1;
-		    for(var i = 0; i < journees.length; i++){
-		        if(max < journees[i].idJournee)
-		            max = journees[i].idJournee;
-		    }
-		    if (! jQuery.isEmptyObject(listeIdEntreprise)) {
-		        creerCSV(jsonTab, "listeEntreprisesInvitees");
-		        creerCSV2(max);
-		        reloadTable();
-		    }
-		    */
-		    if (! jQuery.isEmptyObject(listeIdEntreprise)) {
-			    updateTable();
-			    Utils.notifySucces('Sauvegarde réussie');
-		    }
+			$.ajax({
+                url: '/insererParticipation',
+                type: 'POST',
+                data: json,
+                success: function(resp) {
+					var element = document.createElement('a');
+					element.setAttribute('href', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(resp));
+					element.setAttribute('download', 'NouvellesEntreprisesInvitees.csv');
+
+					element.style.display = 'none';
+					document.body.appendChild(element);
+
+					element.click();
+
+					document.body.removeChild(element);
+					updateTable();
+					Utils.notifySucces('Sauvegarde réussie');
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                	notifyErreur(errorThrown);
+                }
+            });
+
+            $.ajax({
+		        url: '/getCsvToutLeMonde',
+		        type: 'POST',
+				success: function(resp2) {
+					var element2 = document.createElement('a');
+					element2.setAttribute('href', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(resp2));
+					element2.setAttribute('download', 'ToutesLesEntreprisesInvitees.csv');
+
+					element2.style.display = 'none';
+					document.body.appendChild(element2);
+
+					element2.click();
+
+					document.body.removeChild(element2);
+					},
+	            error: function(jqXHR, textStatus, errorThrown) {
+	        	    notifyErreur(errorThrown);
+	            }
+	        });
 		}
 		
 		// Obliger de destroy et de rappeller la methode pour avoir les data

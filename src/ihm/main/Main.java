@@ -53,6 +53,8 @@ public class Main {
 
   public static String url;
   public static Configuration configuration;
+  
+  private static String virtualpath;
 
   /**
    * Méthode main. Chargement du fichier prod.properties avec 
@@ -76,6 +78,7 @@ public class Main {
       mdp = Main.configuration.getConfiguration("Mdp");
       secret = Main.configuration.getConfiguration("Secret");
       dal = (DalServicesImpl) Main.configuration.inject("dal").newInstance(lien, utilisateur, mdp);
+      virtualpath = Main.configuration.getConfiguration("virtualpath");
 
       // utilisateur
       userFactory =
@@ -122,7 +125,7 @@ public class Main {
 
     MaServlet servlet =
         new MaServlet(secret, userUcc, userFactory, entrepriseUcc, entrepriseFactory, jeUcc,
-            jeFactory, personneContactUcc, personneContactFactory, partUcc, partFactory);
+            jeFactory, personneContactUcc, personneContactFactory, partUcc, partFactory,virtualpath);
 
     // Context
     WebAppContext context = new WebAppContext();

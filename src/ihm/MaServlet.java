@@ -3,7 +3,16 @@ package ihm;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.nio.ByteBuffer;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
+import java.nio.channels.WritableByteChannel;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -79,6 +88,8 @@ public class MaServlet extends DefaultServlet {
 
   private ParticipationUcc participationUcc;
   private ParticipationFactory participationFactory;
+  
+  private String virtualpath;
 
 
   private Genson genson = new GensonBuilder().useDateFormat(new SimpleDateFormat("yyyy-MM-dd"))
@@ -104,7 +115,7 @@ public class MaServlet extends DefaultServlet {
       EntrepriseUcc entrepriseUcc, EntrepriseFactory entrepriseFactory, JourneeEntrepriseUcc jeUcc,
       JourneeEntrepriseFactory jeFactory, PersonneContactUcc personneContactUcc,
       PersonneContactFactory personneContactFactory, ParticipationUcc partUcc,
-      ParticipationFactory partFactory) {
+      ParticipationFactory partFactory, String virtualpath) {
     super();
     this.secret = secret;
     this.utilisateurUcc = userUcc;
@@ -117,6 +128,7 @@ public class MaServlet extends DefaultServlet {
     this.personneContactFactory = personneContactFactory;
     this.participationUcc = partUcc;
     this.participationFactory = partFactory;
+    this.virtualpath = virtualpath;
   }
 
   @Override
@@ -180,8 +192,8 @@ public class MaServlet extends DefaultServlet {
     System.out.println("******************");
     System.out.println("Requete perçue dans POST " + chemin);
 
-    String[] demande = chemin.substring(1).split("/");
-    System.out.println("doPost -> " + demande[0]);
+    String[] demande = chemin.split("/");
+    System.out.println("doPost -> " + demande[1]);
 
     System.out.println(chemin);
 
@@ -189,7 +201,7 @@ public class MaServlet extends DefaultServlet {
 
     try {
       // Demande qui ne demande pas d'etre connecte
-      switch (demande[0]) {
+      switch (demande[1]) {
         case "inscription":
           reponse = inscription(req);
           break;
@@ -225,7 +237,7 @@ public class MaServlet extends DefaultServlet {
         return;
       }
 
-      switch (demande[0]) {
+      switch (demande[1]) {
         case "deconnexion":
           deconnexion(req, resp);
           return;
@@ -334,13 +346,40 @@ public class MaServlet extends DefaultServlet {
       }
 
       if (reponse == null && utilisateurAuthentifie.getResponsable()) {
-        switch (demande[0]) {
+        switch (demande[1]) {
           case "modifierPersonneContact":
             reponse = modifierPersonneContact(req);
             break;
           case "insererParticipation":
             reponse = insererParticipation(req);
-            break;
+            String sourceFile = "Nouveau.csv";
+            try {
+                FileInputStream inputStream = new FileInputStream(sourceFile);
+                String disposition = "attachment; fileName=outputfile.csv";
+                resp.setContentType("text/csv");
+                resp.setHeader("Content-Disposition", disposition);
+                resp.setHeader("content-Length", String.valueOf(stream(inputStream, resp.getOutputStream())));
+                return;
+            } catch (IOException e) {
+            }
+            
+          case "getCsvToutLeMonde":
+        	  List<Integer> listeId = new ArrayList<>();
+        	  for(EntrepriseDto entrepriseDto : entrepriseUcc.getEntreprisesInvitees()){
+        		  listeId.add(entrepriseDto.getIdEntreprise());
+        	  }
+        	  creerCSV(listeId);
+        	  sourceFile = "Nouveau.csv";
+              try {
+                  FileInputStream inputStream = new FileInputStream(sourceFile);
+                  String disposition = "attachment; fileName=outputfile.csv";
+                  resp.setContentType("text/csv");
+                  resp.setHeader("Content-Disposition", disposition);
+                  resp.setHeader("content-Length", String.valueOf(stream(inputStream, resp.getOutputStream())));
+
+              } catch (IOException e) {
+              }
+        	  return;
           case "getEntreprisesInvitablesEtInvitees":
             reponse = getEntreprisesInvitablesEtInvitees(req);
             break;
@@ -788,6 +827,7 @@ public class MaServlet extends DefaultServlet {
       listeEntreprises.add(entreprise);
     }
     List<Integer> listeRetour = this.participationUcc.insererParticipation(listeEntreprises);
+    creerCSV(listeRetour);
     return listeRetour;
   }
 
@@ -821,5 +861,38 @@ public class MaServlet extends DefaultServlet {
 	  List<String> listeDeCommentaires = this.participationUcc.getCommentairesParEntreprise(idEntreprise);
 	  return listeDeCommentaires;
   }
+  
+  protected void creerCSV(List<Integer> tabIdEntreprises){
+	  try{
+		    PrintWriter writer = new PrintWriter("Nouveau.csv", "UTF-8");
+		    writer.println("Entreprise;Nom;Prenom;E-mail");
+		    for(int i : tabIdEntreprises){
+		    	String nom = entrepriseUcc.getEntrepriseSelonId(i).getNomEntreprise();
+		    	for(PersonneContactDto personne : personneContactUcc.getPersonnesContactDeLEntreprise(i)){
+		    		if(!("").equals(personne.getEmail())){
+		    			writer.println(nom+";"+personne.getNom()+";"+personne.getPrenom()+";"+personne.getEmail());
+		    		}
+		    	}
+			}
+		    writer.close();
+		} catch (IOException e) {
+			System.err.println(e.getMessage());
+		}
+  }
+  
+  private long stream(InputStream input, OutputStream output) throws IOException {
+
+	    try (ReadableByteChannel inputChannel = Channels.newChannel(input); WritableByteChannel outputChannel = Channels.newChannel(output)) {
+	        ByteBuffer buffer = ByteBuffer.allocate(10240);
+	        long size = 0;
+
+	        while (inputChannel.read(buffer) != -1) {
+	            buffer.flip();
+	            size += outputChannel.write(buffer);
+	            buffer.clear();
+	        }
+	        return size;
+	    }
+	}
 
 }
