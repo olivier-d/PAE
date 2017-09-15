@@ -131,7 +131,10 @@ public class Main {
     WebAppContext context = new WebAppContext();
     context.setResourceBase("www");
     context.setContextPath("/");
-    context.addServlet(new ServletHolder(servlet), "/*");
+    ServletHolder sh= new ServletHolder(servlet);
+    context.addServlet(sh, "/"+virtualpath);
+    context.addServlet(sh, "/"+virtualpath+"/");
+    context.addServlet(sh, "/"+virtualpath+"/*");
     context.setInitParameter("cacheControl", "no-store,no-cache,must-revalidate");
     context.setClassLoader(Thread.currentThread().getContextClassLoader());
 

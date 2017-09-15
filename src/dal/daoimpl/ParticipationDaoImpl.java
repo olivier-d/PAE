@@ -485,7 +485,6 @@ public class ParticipationDaoImpl implements ParticipationDao {
     participation.setIdJournee(rs.getInt(5));
     participation.setIdEntreprise(rs.getInt(6));
     if (rs.getString(7) == null) {
-    	System.out.println("NULL DB");
     	 participation.setCommentaire("");
     } else {
         participation.setCommentaire(rs.getString(7));

@@ -136,8 +136,7 @@ public class MaServlet extends DefaultServlet {
       throws ServletException, IOException {
 
     System.out.println(req.getRequestURI());
-    if (!req.getRequestURI().equals("/")) {
-
+    if (!req.getRequestURI().equals("/"+virtualpath+"/")) {
       super.doGet(req, resp);
 
     } else {
@@ -181,7 +180,7 @@ public class MaServlet extends DefaultServlet {
     System.out.println(chemin);
 
 
-    if (!chemin.startsWith("/")) {
+    if (!chemin.startsWith("/"+virtualpath)) {
       resp.sendError(400, "Route incorrecte");
     }
 
@@ -193,7 +192,7 @@ public class MaServlet extends DefaultServlet {
     System.out.println("Requete perçue dans POST " + chemin);
 
     String[] demande = chemin.split("/");
-    System.out.println("doPost -> " + demande[1]);
+    System.out.println("doPost -> " + demande[2]);
 
     System.out.println(chemin);
 
@@ -201,12 +200,14 @@ public class MaServlet extends DefaultServlet {
 
     try {
       // Demande qui ne demande pas d'etre connecte
-      switch (demande[1]) {
+      switch (demande[2]) {
         case "inscription":
           reponse = inscription(req);
           break;
         case "connexion":
+          System.out.println("oui connexion");
           reponse = connexion(req, resp);
+          System.out.println("reponse -> " + reponse);
           break;
         case "verifierConnexion":
           // Verifier la presence de la session
@@ -237,7 +238,7 @@ public class MaServlet extends DefaultServlet {
         return;
       }
 
-      switch (demande[1]) {
+      switch (demande[2]) {
         case "deconnexion":
           deconnexion(req, resp);
           return;
@@ -346,7 +347,7 @@ public class MaServlet extends DefaultServlet {
       }
 
       if (reponse == null && utilisateurAuthentifie.getResponsable()) {
-        switch (demande[1]) {
+        switch (demande[2]) {
           case "modifierPersonneContact":
             reponse = modifierPersonneContact(req);
             break;

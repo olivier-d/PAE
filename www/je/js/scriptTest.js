@@ -29,7 +29,7 @@ var app;
 		
 		function getSession() {
 			$.ajax({
-                url: '/verifierConnexion',
+                url: 'verifierConnexion',
                 type: 'POST',
                 success: function(resp) {
 	                if (! jQuery.isEmptyObject(resp)) {
@@ -40,8 +40,8 @@ var app;
 	                }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                	notifyErreur(errorThrown);
-                    deconnexion();
+                	//Utils.notifyErreur(errorThrown);
+                    Nav.destroy();
                 }
             });
 		}
@@ -98,7 +98,7 @@ var app;
 		    var json = $form.serialize();
 		    var inputVide = [];
 		    if (Utils.testInputNonVide($form, inputVide)) {
-	            var utilisateur = Ajax.ajax('/connexion', json, $form);
+	            var utilisateur = Ajax.ajax('connexion', json, $form);
 	            if (! jQuery.isEmptyObject(utilisateur)) {
 	            	app.setUser(utilisateur);
 	            	destroy();
@@ -162,7 +162,7 @@ var app;
 		            $form.find('input[type="password"]').after("<span class=\"glyphicon glyphicon-remove form-control-feedback\" aria-hidden=\"true\"></span>");
 		            Utils.messageErreur($form, 'Mot de passe incorrect.');
 		        } else {
-		            var retour = Ajax.ajax('/inscription', json, $form);
+		            var retour = Ajax.ajax('inscription', json, $form);
 		            if (retour.success) {
 		                destroy();
 		                Connexion.init();
@@ -397,7 +397,7 @@ var app;
 		function modifierEtatParticipation(idParticipation, etat, version) {
 			console.log(idParticipation + " - " + etat + " - " + version);
 			var json = 'idParticipation='+idParticipation+'&etat='+etat+'&version='+version;
-	        var retour = Ajax.ajax('/updateEtatParticipation', json);
+	        var retour = Ajax.ajax('updateEtatParticipation', json);
 	        if (retour.success) {
 	        	updateTable();
 	        }
@@ -406,7 +406,7 @@ var app;
 		function annulerParticipation(idParticipation) {
 			if (confirm('Etes-vous sur de vouloir annuler la participation n°'+idParticipation+" ?")){
 		        var json = 'idParticipation='+idParticipation;
-		        var retour = Ajax.ajax('/annulerParticipation', json);
+		        var retour = Ajax.ajax('annulerParticipation', json);
 		        if (retour.success) {
 		        	updateTable();
 		        }
@@ -416,7 +416,7 @@ var app;
 		
 		function cloturerJE() {
 			if (confirm('Etes-vous sur de vouloir cloturer la JE ?')) {
-		        retour = Ajax.ajax('/cloturerJE');
+		        retour = Ajax.ajax('cloturerJE');
 		        if (retour.success) {
 		        	refreshSelectJE();
 		        }
@@ -431,7 +431,7 @@ var app;
 		
 		function loadSelectJE() {
 			$selectJE.empty();
-			var je = Ajax.ajax('/getJE');
+			var je = Ajax.ajax('getJE');
 		    
 			if (je.length == 0) {
 		        var option = $('<option name="idJournee">');
@@ -468,7 +468,7 @@ var app;
 			table = $table.DataTable( {
 	            serverSide: false,
 	            ajax: {
-	                url: '/getParticipationsEntreprises',
+	                url: 'getParticipationsEntreprises',
 	                type: "POST",
 	                data: function ( d ) {
 	                    d.idJournee = $selectJE.find(':selected').val();
@@ -649,10 +649,9 @@ var app;
 		        }
 		    }
 		    var json = 'tabIdEntreprise=' + JSON.stringify(jsonTab);
-		    //var listeIdEntreprise = Ajax.ajax('/insererParticipation', json);
 		    
 			$.ajax({
-                url: '/insererParticipation',
+                url: 'insererParticipation',
                 type: 'POST',
                 data: json,
                 success: function(resp) {
@@ -675,7 +674,7 @@ var app;
             });
 
             $.ajax({
-		        url: '/getCsvToutLeMonde',
+		        url: 'getCsvToutLeMonde',
 		        type: 'POST',
 				success: function(resp2) {
 					var element2 = document.createElement('a');
@@ -703,7 +702,7 @@ var app;
 			table = $table.DataTable( {
 	            serverSide: false,
 	            ajax: {
-	                url: '/getEntreprisesInvitablesEtInvitees',
+	                url: 'getEntreprisesInvitablesEtInvitees',
 	                type: "POST",
 	                dataSrc: function ( json ) {
 	                	tabIdInvitables = json[1];
@@ -860,7 +859,7 @@ var app;
 			table = $table.DataTable( {
 	            serverSide: false,
 	            ajax: {
-	                url: '/getEntreprisesEtCreateurs',
+	                url: 'getEntreprisesEtCreateurs',
 	                type: "POST",
 	                dataSrc: ""
 	            },
@@ -979,7 +978,7 @@ var app;
 		function desactiverPersonne(objet) {
 			if (confirm('Etes-vous sur de vouloir désactiver ' + objet.nom + ' ' + objet.prenom + ' ?')) {
 		        var json = 'idPers=' + objet.idPersonneContact;
-		        var retour = Ajax.ajax('/desactiverPersContact', json);
+		        var retour = Ajax.ajax('desactiverPersContact', json);
 		        if (retour.success) {
 		        	updateTable();
 		        }
@@ -993,7 +992,7 @@ var app;
 				table = $table.DataTable( {
 		            serverSide: false,
 		            ajax: {
-		                url: '/getPersonnesContactEtEntreprise',
+		                url: 'getPersonnesContactEtEntreprise',
 		                type: "POST",
 		                dataSrc: ""
 		            },
@@ -1087,7 +1086,7 @@ var app;
             	table = $table.DataTable( {
 		            serverSide: false,
 		            ajax: {
-		                url: '/getPersonnesContactEtEntreprise',
+		                url: 'getPersonnesContactEtEntreprise',
 		                type: "POST",
 		                dataSrc: ""
 		            },
@@ -1233,7 +1232,7 @@ var app;
 		    var json = $form.serialize();
 		    var inputVide = [];
 		    if (Utils.testInputNonVide($form, inputVide)) {
-		        var retour = Ajax.ajax('/creerJE', json, $form);
+		        var retour = Ajax.ajax('creerJE', json, $form);
 		        if (retour.success) {
 		        	destroy();
 		        	Journee.refreshSelectJE();
@@ -1270,7 +1269,7 @@ var app;
 			table = $table.DataTable( {
 	            serverSide: false,
 	            ajax: {
-	                url: '/getPersonnesEtPersonnesInviteesParticipation',
+	                url: 'getPersonnesEtPersonnesInviteesParticipation',
 	                type: "POST",
 	                data: function ( d ) {
 	                    d.idParticipation = idParticipation,
@@ -1376,7 +1375,7 @@ var app;
 		    }
 		    var json = 'tabIdPersonneContact=' + JSON.stringify(jsonTab) + "&idParticipation=" + idParticipation;
 		    console.log(json);
-		    var listeIdEntreprise = Ajax.ajax('/insererPersonneContactParticipation', json);
+		    var listeIdEntreprise = Ajax.ajax('insererPersonneContactParticipation', json);
 		    if (listeIdEntreprise.success) {
 		        
 		    }
@@ -1387,7 +1386,7 @@ var app;
 			table = $table.DataTable( {
 	            serverSide: false,
 	            ajax: {
-	                url: '/getPersonnesEtPersonnesInviteesParticipation',
+	                url: 'getPersonnesEtPersonnesInviteesParticipation',
 	                type: "POST",
 	                data: function ( d ) {
 	                    d.idParticipation = idParticipation,
@@ -1512,7 +1511,7 @@ var app;
 		    console.log(json);
 		    var inputVide = [];
 		    if (Utils.testInputNonVide($form, inputVide)) {
-		        var retour = Ajax.ajax('/insererCommentaire', json, $form);
+		        var retour = Ajax.ajax('insererCommentaire', json, $form);
 		        if (retour.success) {
 		        	destroy();
 		        	Journee.updateTable();
@@ -1578,7 +1577,7 @@ var app;
 		    var json = 'entreprise=' + JSON.stringify(Utils.formToJson($form));
 		    var inputVide = ["boite"];
 		    if (Utils.testInputNonVide($form, inputVide)) {
-		        var retour = Ajax.ajax('/insererEntreprise', json, $form);
+		        var retour = Ajax.ajax('insererEntreprise', json, $form);
 		        if (retour.success) {
 		            Entreprise.updateTable();
 		        	destroy();
@@ -1616,7 +1615,7 @@ var app;
 			table = $table.DataTable( {
 	            serverSide: false,
 	            ajax: {
-	                url: '/getPersonnesContactDeLEntreprise',
+	                url: 'getPersonnesContactDeLEntreprise',
 	                type: "POST",
 	                data: function ( d ) {
 	                    d.idEntreprise = getIdEntreprise()
@@ -1683,7 +1682,7 @@ var app;
 			table = $table.DataTable( {
 	            serverSide: false,
 	            ajax: {
-	                url: '/getParticipationsJEPers',
+	                url: 'getParticipationsJEPers',
 	                type: "POST",
 	                data: function ( d ) {
 	                    d.idEntreprise = getIdEntreprise()
@@ -1785,7 +1784,7 @@ var app;
 		    var json = 'personne=' + JSON.stringify(Utils.formToJson($form));
 		    var inputVide = [];
 		    if (Utils.testInputNonVide($form, inputVide)) {
-		        var retour = Ajax.ajax('/insererPersonneDeContact', json, $form);
+		        var retour = Ajax.ajax('insererPersonneDeContact', json, $form);
 		        if (retour.success) {
 		            Personne.updateTable();
 		        	destroy();
@@ -1799,7 +1798,7 @@ var app;
 		
 		function loadSelectEntreprises() {
 			$select.empty();
-			var entreprises = Ajax.ajax('/getEntreprises');
+			var entreprises = Ajax.ajax('getEntreprises');
 		    
 			if (entreprises.length == 0) {
 		        var option = $('<option name="idEntreprise">');
@@ -1850,7 +1849,7 @@ var app;
 		
 		function afficherInfo() {
 			var json = "idEntreprise=" + idEntreprise;
-		    var informationEntreprise = Ajax.ajax('/getEntreprisesParId', json);
+		    var informationEntreprise = Ajax.ajax('getEntreprisesParId', json);
 		    
 			$divNomEntreprise.html(informationEntreprise.nomEntreprise);
 	        var adresse = informationEntreprise.rue + ", " + informationEntreprise.numero + " ";
@@ -1897,7 +1896,7 @@ var app;
 		    console.log(json);
 		    var inputVide = [];
 		    if (Utils.testInputNonVide($form, inputVide)) {
-		        var retour = Ajax.ajax('/modifierPersonneContact', json, $form);
+		        var retour = Ajax.ajax('modifierPersonneContact', json, $form);
 		        if (retour.success) {
 		            Personne.updateTable();
 		            destroy();
@@ -1956,7 +1955,7 @@ var app;
 			$div.empty();
 			
 			var json = "idEntreprise=" + idEntreprise;
-		    var listeCommentaires = Ajax.ajax('/getCommentairesParEntreprise', json);
+		    var listeCommentaires = Ajax.ajax('getCommentairesParEntreprise', json);
 	    	
 		    for (var i=1; i <= listeCommentaires.length; i++) {
 				var $texte = '<blockquote>' + listeCommentaires[i-1] + '</blockquote>';
