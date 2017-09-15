@@ -229,10 +229,6 @@ var app;
 		
 		function chargerProfil() {
 			var utilisateur = app.getUser();
-		    $('#modalChangerPasswordLabel').html("Profil de l'utilisateur : "+ utilisateur.pseudo);
-		    $('#disabledNom').attr("placeholder", utilisateur.nom.toUpperCase());
-		    $('#disabledPrenom').attr("placeholder",utilisateur.prenom.charAt(0).toUpperCase() + utilisateur.prenom.slice(1));
-		    $('#disabledMail').attr("placeholder", utilisateur.email);
             $('#nomUtilisateur').html(utilisateur.nom.toUpperCase() + " " + utilisateur.prenom.charAt(0).toUpperCase() + utilisateur.prenom.slice(1));
 		}
 		
@@ -254,7 +250,6 @@ var app;
 						break;
 				}
 			}
-			
 		}
 		
 		function bindAll() {
@@ -282,7 +277,6 @@ var app;
 			
 			$butDeconnection.on('click', destroy);
 			
-			// TODO - rajouter tous les modals
 			$('#section-entreprises').find('button[data-target="#modalCreerEntreprise"]').on('click', function() {
 				ModalCreerEntreprise.init();
 			});
@@ -476,6 +470,7 @@ var app;
 	                dataSrc: ""
 	            },
 	            autoWidth: false,
+	            scrollX: true,
 	            language: dataTablesLanguage,
 	            createdRow: function (row, objet, index) {
 	                $(row).attr('data-objet', JSON.stringify(objet));
@@ -517,11 +512,8 @@ var app;
 	                {
 	            		data: function ( row, type, val, meta ) { 
 		                    if (row.key.etat !== "INVITEE" && row.key.etat !== "REFUSEE") {
-		                        return "<button type=\"button\" class=\"voir-participants btn btn-outline btn-primary btn-sm\" " +
-		                                    "aria-labal=\"Center Align\" " +
-		                                "data-toggle=\"modal\" data-target=\"#modalAfficherParticipants\">" +
-		                                "<span class=\"fa fa-edit \" aria-hidden=\"true\"></span>" +
-		                                " Voir participants</button>";
+		                        return "<button type=\"button\" class=\"voir-participants btn btn-outline btn-primary btn-sm\" \"aria-labal=\"Center Align\" " +
+		                                "data-toggle=\"modal\" data-target=\"#modalAfficherParticipants\"><span class=\"fa fa-edit \" aria-hidden=\"true\"></span> Voir participants</button>";
 		                    }else {
 		                        return "";
 		                    }
@@ -552,11 +544,11 @@ var app;
 	            rowCallback: function(row, objet, index) {
 	                $(row).find('select').selectpicker('val', objet.key.etat);
 	                $(row).find('select').selectpicker('refresh');
+	                
 	                // Teste id correspond à id du name du select de la JE, si pas JE Fermee donc on disabled les boutons
 	                if ($selectJE.attr('name') != objet.key.idJournee) {
-	                    $(row).find('button').attr('disabled', true);
+	                    $(row).find('button').not('.voir-participants').not('.ajouter-commentaire').not('.modifier-commentaire').attr('disabled', true);
 	                    $(row).find('select').attr('disabled', true);
-	                    $(row).find('td button[data-target="#modalAfficherParticipants"]').attr('disabled', false);
 	                }
 	                var $select = $(row).find('select');
 	                $select.on('change', function() {
@@ -572,7 +564,6 @@ var app;
             initializeTable();
         }
 		
-		// Ne sera normalement jamais utilise...
 	    function updateTable() {
             table.ajax.reload();
         }
@@ -712,6 +703,7 @@ var app;
 	                }
 	            },
 	            autoWidth: false,
+	            scrollX: true,
 	            language: dataTablesLanguage,
 	            createdRow: function (row, objet, index) {
 	                $(row).attr('data-objet', JSON.stringify(objet));
@@ -865,6 +857,7 @@ var app;
 	            },
 	            autoWidth: false,
 	            language: dataTablesLanguage,
+	            scrollX: true,
 	            createdRow: function (row, objet, index) {
 	                $(row).attr('data-info', objet.key.idEntreprise);
 	            },
@@ -997,6 +990,7 @@ var app;
 		                dataSrc: ""
 		            },
 		            autoWidth: false,
+		            scrollX: true,
 		            language: dataTablesLanguage,
 		            createdRow: function (row, objet, index) {
 		                $(row).attr('data-objet', JSON.stringify(objet.key));
@@ -1041,9 +1035,9 @@ var app;
 		                	data: function ( row, type, val, meta ) { 
 		                        if (row.key.actif) {
 		                            return "<fieldset disabled>" +
-			                            "<button type=\"button\" class=\"btn btn-outline btn-success btn-xs\">" +
+			                            "<a type=\"button\" class=\"btn btn-outline btn-success btn-xs\">" +
 			                            "<span class=\"fa fa-check\" aria-hidden=\"true\"></span> Actif" +
-			                            "</button></fieldset>";
+			                            "</a></fieldset>";
 		                        } else {
 		                            return "<fieldset disabled>" +
 			                            "<a type=\"button\" class=\"btn btn-outline btn-danger btn-xs\">" +
@@ -1091,6 +1085,7 @@ var app;
 		                dataSrc: ""
 		            },
 		            autoWidth: false,
+		            scrollX: true,
 		            language: dataTablesLanguage,
 		            createdRow: function (row, objet, index) {
 		                $(row).attr('data-objet', JSON.stringify(objet.key));
@@ -1136,9 +1131,9 @@ var app;
 		                	"data": function ( row, type, val, meta ) { 
 		                        if (row.key.actif) {
 		                            return "<fieldset disabled>" +
-		                            "<button type=\"button\" class=\"btn btn-outline btn-success btn-xs\">" +
+		                            "<a type=\"button\" class=\"btn btn-outline btn-success btn-xs\">" +
 		                            "<span class=\"fa fa-check\" aria-hidden=\"true\"></span> Actif" +
-		                            "</button></fieldset>";
+		                            "</a></fieldset>";
 		                        } else {
 		                            return "<fieldset disabled>" +
 		                            "<a type=\"button\" class=\"btn btn-outline btn-danger btn-xs\">" +
@@ -1280,6 +1275,7 @@ var app;
 	                }
 	            },
 	            autoWidth: false,
+	            scrollX: true,
 	            language: dataTablesLanguage,
 	            dom: "rt",
 	            columns: [
@@ -1299,9 +1295,9 @@ var app;
 	            		data: function ( row, type, val, meta ) {
 	                        if (row.actif) {
 	                            return "<fieldset disabled>" +
-	                            "<button type=\"button\" class=\"btn btn-outline btn-success btn-xs\">" +
+	                            "<a type=\"button\" class=\"btn btn-outline btn-success btn-xs\">" +
 	                            "<span class=\"fa fa-check\" aria-hidden=\"true\"></span> Actif" +
-	                            "</button></fieldset>";
+	                            "</a></fieldset>";
 	                        } else {
 	                            return "<fieldset disabled>" +
 	                            "<a type=\"button\" class=\"btn btn-outline btn-danger btn-xs\">" +
@@ -1398,6 +1394,7 @@ var app;
 	                }
 	            },
 	            autoWidth: false,
+	            scrollX: true,
 	            language: dataTablesLanguage,
 	            dom: "rt",
 	            columns: [
@@ -1425,9 +1422,9 @@ var app;
 	            		data: function ( row, type, val, meta ) {
 	            			if (row.actif) {
 	                            return "<fieldset disabled>" +
-	                            "<button type=\"button\" class=\"btn btn-outline btn-success btn-xs\">" +
+	                            "<a type=\"button\" class=\"btn btn-outline btn-success btn-xs\">" +
 	                            "<span class=\"fa fa-check\" aria-hidden=\"true\"></span> Actif" +
-	                            "</button></fieldset>";
+	                            "</a></fieldset>";
 	                        } else {
 	                            return "<fieldset disabled>" +
 	                            "<a type=\"button\" class=\"btn btn-outline btn-danger btn-xs\">" +
@@ -1623,6 +1620,7 @@ var app;
 	                dataSrc: ""
 	            },
 	            autoWidth: false,
+	            scrollX: true,
 	            language: dataTablesLanguage,
 	            dom: "rt",
 	            columns: [
@@ -1690,6 +1688,7 @@ var app;
 	                dataSrc: ""
 	            },
 	            autoWidth: false,
+	            scrollX: true,
 	            language: dataTablesLanguage,
 	            dom: "rt",
 	            columns: [

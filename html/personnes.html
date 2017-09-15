@@ -15,7 +15,7 @@
 								</div>
 								<div class="panel-body">
 									<!-- Table d'affichage des personneDeContact -->
-									<table id="lesPersonnesContact" class="table table-striped responsive" style="width:100%;stycellspacing=0;">
+									<table id="lesPersonnesContact" class="table table-striped" style="width:100%;stycellspacing=0;">
 									</table>
 								</div>
 							</div>
@@ -94,7 +94,7 @@
 												<div class="col-lg-6">
 													<div class="form-group input-group">
 														<span class="input-group-addon"><i class="fa fa-user"></i></span>
-														<input class="form-control" name="prenom" type="text" placeholder="Prénom">
+														<input class="form-control" name="prenom" type="text" placeholder="PrÃ©nom">
 													</div>
 												</div>
 											</div>
@@ -109,7 +109,7 @@
 											</div>
 											<div class="form-group input-group">
 												<span class="input-group-addon"><i class="fa fa-phone fa-fw"></i></span>
-												<input type="tel" class="form-control" name="telephone" placeholder="N° Téléphone">
+												<input type="tel" class="form-control" name="telephone" placeholder="NÂ° TÃ©lÃ©phone">
 											</div>
 										</div>
 									</div>
@@ -141,53 +141,6 @@
 					<!-- /.modal-dialog -->
 				</div>
 							
-				<div class="modal fade" id="modalRechercherPersonneContact" tabindex="-1" role="dialog" aria-labelledby="modalRechercherPersonneContact"
-						aria-hidden="true" style="display: none;">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-								<h4 class="modal-title">
-									<i class="fa fa-building fa-fw"></i> Rechercher personne de contact
-								</h4>
-							</div>
-							<div class="modal-body">
-								<form role="form" id="formRechercherContact">
-									<div class="panel panel-info">
-									<div class="panel-heading"> Informations personnelles</div>
-									<div class="panel-body">
-										<div class="row">
-											<div class="col-lg-6">
-												<div class="form-group">
-													<label>Nom</label> 
-													<input class="form-control" name="nom" type="text">
-												</div>
-											</div>
-											<div class="col-lg-6">
-												<div class="form-group">
-													<label>Prénom</label> 
-													<input class="form-control" name="prenom" type="text">
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-									<div class="row">
-										<div class="col-lg-10 col-md-offset-1">
-											<div class="messageErreur"></div>
-										</div>
-									</div>
-								</form>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
-								<button type="button" class="btn btn-primary" id="buttonRechercherContact">Rechercher</button>
-							</div>
-						</div>
-						<!-- /.modal-content -->
-					</div>
-					<!-- /.modal-dialog -->
-				</div>
 							
 				<!-- Modal -->
 				<div class="modal fade" id="modalEditerPersonneDeContact" tabindex="-1" role="dialog" aria-labelledby="modalEditerPersonneDeContactLabel" aria-hidden="true">
@@ -197,8 +150,7 @@
 								<div class="modal-header">
 									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 									<h4 class="modal-title">
-										<span class="glyphicon glyphicon-edit"></span> Modification des informations d'une
-										Personne de Contact
+										<span class="glyphicon glyphicon-edit"></span> Modification des informations d'une Personne de Contact
 									</h4>
 								</div>
 								<div class="modal-body">
@@ -214,7 +166,7 @@
 												</div>
 												<div class="col-lg-6">
 													<div class="form-group">
-														<label>Prénom</label> 
+														<label>PrÃ©nom</label> 
 														<input class="form-control" name="prenom" type="text">
 													</div>
 												</div>
@@ -230,7 +182,7 @@
 											</div>
 											<div class="form-group input-group">
 												<span class="input-group-addon"><i class="fa fa-phone fa-fw"></i></span>
-												<input type="tel" class="form-control" name="telephone" placeholder="N° Téléphone">
+												<input type="tel" class="form-control" name="telephone" placeholder="NÂ° TÃ©lÃ©phone">
 											</div>
 										</div>
 									</div>

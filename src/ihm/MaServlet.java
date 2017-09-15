@@ -153,7 +153,6 @@ public class MaServlet extends DefaultServlet {
       response += readFile("html/connexion.html", StandardCharsets.UTF_8);
       response += readFile("html/inscription.html", StandardCharsets.UTF_8);
       response += readFile("html/navigation.html", StandardCharsets.UTF_8);
-      response += readFile("html/dashboard.html", StandardCharsets.UTF_8);
       response += readFile("html/journees.html", StandardCharsets.UTF_8);
       response += readFile("html/gestion.html", StandardCharsets.UTF_8);
       response += readFile("html/entreprises.html", StandardCharsets.UTF_8);
