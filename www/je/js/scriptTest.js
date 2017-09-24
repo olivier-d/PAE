@@ -650,7 +650,7 @@ var app;
                 data: json,
                 success: function(resp) {
 					var element = document.createElement('a');
-					element.setAttribute('href', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(resp));
+					element.setAttribute('href', 'data:text/csv;charset=UTF-8,' + encodeURIComponent('\ufeff'+resp));
 					element.setAttribute('download', 'NouvellesEntreprisesInvitees.csv');
 
 					element.style.display = 'none';
@@ -672,7 +672,7 @@ var app;
 		        type: 'POST',
 				success: function(resp2) {
 					var element2 = document.createElement('a');
-					element2.setAttribute('href', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(resp2));
+					element2.setAttribute('href', 'data:text/csv;charset=UTF-8,' + encodeURIComponent('\ufeff'+resp2));
 					element2.setAttribute('download', 'ToutesLesEntreprisesInvitees.csv');
 
 					element2.style.display = 'none';
