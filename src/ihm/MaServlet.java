@@ -3,7 +3,6 @@ package ihm;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -150,8 +149,8 @@ public class MaServlet extends DefaultServlet {
       String response = "";
 
       response += readFile("html/header.html", StandardCharsets.UTF_8);
-      response += readFile("html/connexion.html", StandardCharsets.UTF_8);
-      response += readFile("html/inscription.html", StandardCharsets.UTF_8);
+      //response += readFile("html/connexion.html", StandardCharsets.UTF_8);
+      //response += readFile("html/inscription.html", StandardCharsets.UTF_8);
       response += readFile("html/navigation.html", StandardCharsets.UTF_8);
       response += readFile("html/journees.html", StandardCharsets.UTF_8);
       response += readFile("html/gestion.html", StandardCharsets.UTF_8);
@@ -571,6 +570,7 @@ public class MaServlet extends DefaultServlet {
   }
 
   // On ne teste pas encore si le nv mdp = ancien
+  /*
   private String changerMdp(UtilisateurDto utilisateur, HttpServletRequest req) {
 
     String mdp = req.getParameter("nouveauMdp");
@@ -587,6 +587,7 @@ public class MaServlet extends DefaultServlet {
 
     return "Modification mdp réussie, veuillez-vous reconnecter";
   }
+  */
 
   protected UtilisateurDto getUtilisateurSelonIdEtVersion(UtilisateurDto utilisateurDto) {
     UtilisateurDto utilisateur = utilisateurUcc.verifierUtilisateur(utilisateurDto);
