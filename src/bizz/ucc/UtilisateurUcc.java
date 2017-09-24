@@ -1,5 +1,6 @@
 package bizz.ucc;
 
+import bizz.domaine.Utilisateur;
 import bizz.dto.UtilisateurDto;
 
 public interface UtilisateurUcc {
@@ -13,4 +14,6 @@ public interface UtilisateurUcc {
   int getNumVersion(UtilisateurDto utilisateurDto);
 
   UtilisateurDto verifierUtilisateur(UtilisateurDto utilisateurDto);
+  
+  Utilisateur creerOuChargerUser(UtilisateurDto utilisateurDto);
 }

@@ -203,6 +203,35 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
       throw new FatalException();
     }
   }
+  
+  public Utilisateur isEmailExiste(UtilisateurDto utilisateurDto) {
+	  try {
+	      ResultSet rs = dalBackendServices.prepare("SELECT * FROM PAE.utilisateurs WHERE lower(email) LIKE lower('" + utilisateurDto.getEmail() + "');");
+
+	      if (!rs.next()) {
+	        return null;
+	      }
+	      
+	      Utilisateur utilisateur = (Utilisateur) remplirUtilisateur(rs);
+	      return utilisateur;
+	    } catch (SQLException exception) {
+	      throw new FatalException();
+	    }
+  }
+  
+  @Override
+	public Utilisateur insererUserEmail(UtilisateurDto utilisateurDto) {
+		try {
+	      ResultSet rs = dalBackendServices.prepare("INSERT INTO pae.utilisateurs VALUES (DEFAULT, '','','','" + utilisateurDto.getEmail() + "', CURRENT_DATE, FALSE, '', 0) RETURNING *;");
+
+	      Utilisateur utilisateur = null;
+	      rs.next();
+	      utilisateur = remplirUtilisateur(rs);
+	      return utilisateur;
+	    } catch (Exception exception) {
+	      throw new FatalException();
+	    }
+	}
 
   /**
    * Méthode remplissant un Dto sur base d'un ResulSet.

@@ -129,4 +129,21 @@ public class UtilisateurUccImpl implements UtilisateurUcc {
     }
   }
 
+@Override
+public Utilisateur creerOuChargerUser(UtilisateurDto utilisateurDto) {
+	try {
+      dalServices.startTransaction();
+      Utilisateur utilisateurBizz = utilisateurDao.isEmailExiste(utilisateurDto);
+      if (utilisateurBizz == null) {
+    	  // Alors on crée l'user
+    	  utilisateurBizz = utilisateurDao.insererUserEmail(utilisateurDto);
+      }
+      dalServices.commitTransaction();
+      return utilisateurBizz;
+    } catch (FatalException exception) {
+      dalServices.rollbackTransaction();
+      throw new FatalException("Chargement ou création utilisateur impossible");
+    }
+}
+
 }

@@ -19,4 +19,8 @@ public interface UtilisateurDao {
   public int getNumVersion(UtilisateurDto utilisateurDto);
 
   public Utilisateur verifierUtilisateur(UtilisateurDto utilisateurDto);
+    
+  Utilisateur isEmailExiste(UtilisateurDto utilisateurDto);
+  
+  Utilisateur insererUserEmail(UtilisateurDto utilisateurDto);
 }

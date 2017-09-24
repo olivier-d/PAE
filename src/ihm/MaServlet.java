@@ -200,6 +200,7 @@ public class MaServlet extends DefaultServlet {
     try {
       // Demande qui ne demande pas d'etre connecte
       switch (demande[2]) {
+      /*
         case "inscription":
           reponse = inscription(req);
           break;
@@ -208,6 +209,7 @@ public class MaServlet extends DefaultServlet {
           reponse = connexion(req, resp);
           System.out.println("reponse -> " + reponse);
           break;
+          
         case "verifierConnexion":
           // Verifier la presence de la session
           UtilisateurDto utilisateur = verifierUtilisateurConnexion(req);
@@ -222,6 +224,11 @@ public class MaServlet extends DefaultServlet {
               return;
             }
           }
+          break;
+          */
+        case "creerOuChargerUser":
+        	reponse = creerOuChargerUser(req);
+        	break;
       }
 
       // Renverra un success :
@@ -230,22 +237,26 @@ public class MaServlet extends DefaultServlet {
         return;
       }
 
-      UtilisateurDto utilisateurAuthentifie = verifierUtilisateurConnexion(req);
-      // Verifie que l'utilisateur est connecte pour effectuer les autres demandes
+      //UtilisateurDto utilisateurAuthentifie = verifierUtilisateurConnexion(req);
+      /* Verifie que l'utilisateur est connecte pour effectuer les autres demandes
       if (utilisateurAuthentifie == null) {
         resp.sendError(402, "Session expirée, veuillez-vous reconnecter");
         return;
       }
+      */
 
       switch (demande[2]) {
+      /*
         case "deconnexion":
           deconnexion(req, resp);
           return;
+          
         case "changerMdp":
           reponse = changerMdp(utilisateurAuthentifie, req);
           deconnexion(req, resp);
           resp.getWriter().println(this.genson.serialize(reponse));
           return;
+          */
         case "creerJE":
           reponse = creerJournee(req);
           break;
@@ -264,7 +275,7 @@ public class MaServlet extends DefaultServlet {
               new GenericType<Map<JourneeEntrepriseImpl, Integer>>() {}));
           return;
         case "insererEntreprise":
-          reponse = insererEntreprise(req, utilisateurAuthentifie);
+          reponse = insererEntreprise(req);
           break;
         case "getEntreprises":
           reponse = getEntreprises(req);
@@ -338,14 +349,15 @@ public class MaServlet extends DefaultServlet {
       	  break;
       }
 
-      // Je vérifie l'id + la version + si il est responsable
+      /* Je vérifie l'id + la version + si il est responsable
       utilisateurAuthentifie = getUtilisateurSelonIdEtVersion(utilisateurAuthentifie);
       if (utilisateurAuthentifie == null) {
         resp.sendError(402, "Session expirée, veuillez-vous reconnecter");
         return;
       }
-
-      if (reponse == null && utilisateurAuthentifie.getResponsable()) {
+      */
+      
+      if (reponse == null && isUserResponsable(req)) {
         switch (demande[2]) {
           case "modifierPersonneContact":
             reponse = modifierPersonneContact(req);
@@ -404,7 +416,8 @@ public class MaServlet extends DefaultServlet {
     System.out.println();
   }
 
-  /********************* METHODE UTILITAIRE **********************/
+
+/********************* METHODE UTILITAIRE **********************/
 
   protected String creerToken(String login, String ip) {
     Map<String, Object> claims = new HashMap<String, Object>();
@@ -627,12 +640,11 @@ public class MaServlet extends DefaultServlet {
 
 
   /* GESTION ENTREPRISE */
-
-  protected String insererEntreprise(HttpServletRequest req, UtilisateurDto utilisateurDto) {
+  // Avant dans parametre, UtilisateurDto utilisateurDto
+  protected String insererEntreprise(HttpServletRequest req) {
     String entreprise = req.getParameter("entreprise");
-
     EntrepriseDto entrepriseDto = this.genson.deserialize(entreprise, EntrepriseImpl.class);
-    entrepriseDto.setCreateur(utilisateurDto.getId());
+    entrepriseDto.setCreateur(Integer.parseInt(req.getParameter("idUtilisateur")));
     entrepriseDto = entrepriseUcc.insererEntreprise(entrepriseDto);
     return "Insertion entreprise reussie.";
   }
@@ -893,6 +905,36 @@ public class MaServlet extends DefaultServlet {
 	        }
 	        return size;
 	    }
+  }
+  
+  /*
+   * On va vérifier si l'email est present en DB
+   * -> Si présent = renvoie l'user
+   * -> Sinon on cree l'user + renvoie
+   */
+  protected UtilisateurDto creerOuChargerUser(HttpServletRequest req) {
+	String email = req.getHeader("X-Forwarded-User");
+	if (email == null || email.equals("")) {
+		throw new BizzException("{\"fail\":\"X-Forwarded-User introuvable\"}");
 	}
+	UtilisateurDto user = this.utilisateurFactory.createUtilisateur();
+	user.setEmail(email);
+	user = this.utilisateurUcc.creerOuChargerUser(user);
+	
+	if (isUserResponsable(req)) {
+		user.setResponsable(true);
+	} else {
+		user.setResponsable(false);
+	}
+	return user;
+  }
+  
 
+  protected boolean isUserResponsable(HttpServletRequest req) {
+	  String droit = req.getHeader("X-Forwarded-Groups");
+		if (droit == null || droit.equals("")) {
+			throw new BizzException("{\"fail\":\"X-Forwarded-Groups introuvable\"}");
+		}
+	  return (droit.equals("adminje")) ? true : false;
+  }
 }

@@ -29,19 +29,27 @@ var app;
 		
 		function getSession() {
 			$.ajax({
-                url: 'verifierConnexion',
+                url: 'creerOuChargerUser',
                 type: 'POST',
                 success: function(resp) {
 	                if (! jQuery.isEmptyObject(resp)) {
 	                    setUser(resp);
 	                    Nav.init();
 	                } else {
-	                    Nav.destroy();
+	                    //Nav.destroy();
 	                }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                	//Utils.notifyErreur(errorThrown);
-                    Nav.destroy();
+                	switch (jqXHR.status) {
+				        case 400:
+				            // JSON.parse lance une syntaxe erreur si c'est pas un json ou si y'a un espace
+				            var obj = JSON.parse(errorThrown);
+				            if(obj.fail){
+				                Utils.notifyErreur(obj.fail);
+				            }
+				            break;
+                	}
+                    //Nav.destroy();
                 }
             });
 		}
@@ -69,7 +77,7 @@ var app;
         emptyTable: 'Il n\'y a pas de données à afficher'
     };
 	
-	
+/*	
 	var Connexion = (function() {
 		
 		var $div = $('#divConnexion');
@@ -188,19 +196,17 @@ var app;
 			restroy: destroy
 		}
 	})();
+	*/
 	
 	var Nav = (function() {
 		
-		//var $navDashboard = $('#navBarDashboard');
 		var $navJournee = $('#navBarJournees');
 		var $navJEHistorique = $('#navBarHistorique');
 		// Responsable
 		var $navJEGestion = $('#navBarGestionJE');
 		var $navEntreprise = $('#navBarEntreprises');
 		var $navPersonne = $('#navBarPersonnesDeContact');
-		
-		var $butDeconnection = $('#menuSeDeconnecter');
-		
+				
 		var $wrapper = $('#wrapper');
 
 		
@@ -229,7 +235,7 @@ var app;
 		
 		function chargerProfil() {
 			var utilisateur = app.getUser();
-            $('#nomUtilisateur').html(utilisateur.nom.toUpperCase() + " " + utilisateur.prenom.charAt(0).toUpperCase() + utilisateur.prenom.slice(1));
+            $('#nomUtilisateur').html(utilisateur.email);
 		}
 		
 		function objetDestroy() {
@@ -274,9 +280,7 @@ var app;
 				objetDestroy();
 				Personne.init();
 			});
-			
-			$butDeconnection.on('click', destroy);
-			
+						
 			$('#section-entreprises').find('button[data-target="#modalCreerEntreprise"]').on('click', function() {
 				ModalCreerEntreprise.init();
 			});
@@ -293,7 +297,6 @@ var app;
 			$navJEGestion.off('click');
 			$navEntreprise.off('click');
 			$navPersonne.off('click');
-			$butDeconnection.off('click');
 		}
 		
 		function init() {
@@ -315,7 +318,7 @@ var app;
 			objetDestroy();
 			$wrapper.hide();
 			app.setUser(undefined);
-			Connexion.init();
+			//Connexion.init();
 		}
 		
 		return {
@@ -1571,7 +1574,7 @@ var app;
 			e.preventDefault();
 			
 			Utils.supprimerMessageErreur($form);
-		    var json = 'entreprise=' + JSON.stringify(Utils.formToJson($form));
+		    var json = 'entreprise=' + JSON.stringify(Utils.formToJson($form)) + '&idUtilisateur=' app.getUser.idUtilisateur;
 		    var inputVide = ["boite"];
 		    if (Utils.testInputNonVide($form, inputVide)) {
 		        var retour = Ajax.ajax('insererEntreprise', json, $form);
@@ -1983,7 +1986,7 @@ var app;
 			            // Si message de retour classique
 			            if (typeof data !== 'object') {
 			                if (data === "Deconnexion") {
-			                    Nav.destroy();
+			                    //Nav.destroy();
 			                } else {
 			                    objets.success = "ok";
 			                    $(".modal.in").modal("hide");
@@ -2008,7 +2011,7 @@ var app;
 			            break;
 			        case 402:
 			            // Erreur session expiree
-			            Nav.destroy();
+			            //Nav.destroy();
 			            Utils.notifyErreur(errorThrown);
 			            break;
 			        case 500:
